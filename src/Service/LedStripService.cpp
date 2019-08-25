@@ -1,4 +1,5 @@
 #include "../Interface/LedStripService.h"
+#include "../Helper/LightFactory.cpp"
 
 LedStripService::LedStripService(int digitalPin, int numberOfLights)
 {
@@ -17,10 +18,13 @@ void LedStripService::applyPreset(int type)
 {
     // Serial.println("Stopping preset");
     // _preset.stop();
+    LightFactory * lightFactory = new LightFactory();
     Serial.println("Assigning preset");
-    _preset = SolidLight(255, 0, 0);
+    ILightable * light = lightFactory->getLight(Solid);
     Serial.println("Setting pixels");
-    _preset.setPixels(&_pixels);
+    light->setPixels(&_pixels);
+    // Serial.println("Starting preset");
+    // Serial.println("Starting preset");
     Serial.println("Starting preset");
-    _preset.start();
+    light->start();
 }

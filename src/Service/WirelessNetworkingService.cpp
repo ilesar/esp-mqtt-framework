@@ -13,6 +13,8 @@ bool WirelessNetworkingService::connect()
     setMode();
     setAccessPoints();
     init();
+
+    // /Users/ivan/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266WiFi/src
 }
 
 void WirelessNetworkingService::setMode()

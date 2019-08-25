@@ -3,6 +3,7 @@
 
 #include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
+#include "../Enum/LightType.h"
 
 class ILightable
 {
@@ -11,10 +12,11 @@ public:
     virtual void start();
     virtual void stop();
     void setPixels(Adafruit_NeoPixel* pixels);
-    
+    Adafruit_NeoPixel _pixels;
+
 protected:
     char* _options;
-    Adafruit_NeoPixel _pixels;
+    
 };
 
 #endif

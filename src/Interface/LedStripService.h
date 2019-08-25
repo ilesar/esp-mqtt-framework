@@ -3,7 +3,7 @@
 
 #include <Adafruit_NeoPixel.h>
 #include "./SolidLight.h"
-// #include "./ILightable.h"
+#include "./ILightable.h"
 
 class LedStripService
 {

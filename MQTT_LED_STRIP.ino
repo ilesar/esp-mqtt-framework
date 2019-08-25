@@ -19,7 +19,6 @@ WirelessNetworkingService wifi("The Mainframe", "probajpogoditkoja");
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  wifi.connect();
   led.connect();
 
   // Serial.println("creating json");
@@ -30,6 +29,8 @@ void setup() {
   led.applyPreset(1);
 
   pinMode(2, OUTPUT);
+
+  wifi.connect();
 
   // mqtt.setServer(mqtt_server, 1883);
   // mqtt.setCallback(callback);

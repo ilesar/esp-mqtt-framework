@@ -7,9 +7,7 @@
                 "/Users/ivan/Documents/Arduino/libraries/Adafruit_NeoPixel",
                 "/Users/ivan/Documents/Arduino/libraries/pubsubclient/src",
                 "/Users/ivan/Library/Arduino15/packages/esp8266/tools/**",
-                "/Users/ivan/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/**",
-                "/Users/ivan/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266WiFi/src",
-                "/Users/ivan/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266WiFi/src"
+                "/Users/ivan/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/**"
             ],
             "forcedInclude": [],
             "macFrameworkPath": [

@@ -17,5 +17,7 @@ void ILightable::stop()
 
 void ILightable::setPixels(Adafruit_NeoPixel *pixels)
 {
+    Serial.println('IN');
     _pixels = *pixels;
+    Serial.println('OUT');
 }
