@@ -21,7 +21,9 @@ public:
     ILightable *getLight(LightType type)
     {
         if (type == Solid)
-            return new SolidLight(randomNumber(0, 255), randomNumber(0, 255), randomNumber(0, 255));
+            return new SolidLight(255, 0, 0);
+        if (type == SolidTwo)
+            return new SolidLight(0, 255, 0);
         // else if (type == VT_ThreeWheeler)
         //     return new ThreeWheeler();
         // else if (type == VT_FourWheeler)

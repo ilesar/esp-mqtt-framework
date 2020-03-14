@@ -4,6 +4,7 @@
 #include "./src/Interface/WirelessNetworkingService.h"
 #include "./src/Interface/LedStripService.h"
 #include "./src/Interface/SolidLight.h"
+#include "./src/Enum/LightType.h"
 
 
 #define LED_PIN 5
@@ -26,7 +27,9 @@ void setup() {
   // Serial.println("creating color");
   // SolidLight colorPreset = SolidLight(255, 0, 0);
   Serial.println("applying preset");
-  led.applyPreset(1);
+  led.applyPreset(Solid);
+  delay(1000);
+  led.applyPreset(SolidTwo);
 
   pinMode(2, OUTPUT);
 
