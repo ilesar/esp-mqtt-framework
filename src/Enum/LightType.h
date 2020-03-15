@@ -5,6 +5,8 @@ enum LightType
 {
     Solid,
     SolidTwo,
+    Blue,
+    Yellow,
     Gradient,
     DuoTone
 };

@@ -24,6 +24,10 @@ public:
             return new SolidLight(255, 0, 0);
         if (type == SolidTwo)
             return new SolidLight(0, 255, 0);
+        if (type == Blue)
+            return new SolidLight(0, 0, 255);
+        if (type == Yellow)
+            return new SolidLight(0, 255, 255);
         // else if (type == VT_ThreeWheeler)
         //     return new ThreeWheeler();
         // else if (type == VT_FourWheeler)
