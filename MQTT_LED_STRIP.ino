@@ -1,5 +1,6 @@
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
+#include <ArduinoJson.h>
 
 #include "./src/Interface/WirelessNetworkingService.h"
 #include "./src/Interface/LedStripService.h"
@@ -20,26 +21,65 @@ WirelessNetworkingService wifi("The Mainframe", "probajpogoditkoja");
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
+  String topicStr = topic;
+  payload[length] = '\0';
+  String message = (char *)payload;
 
-  if ((char)payload[0] == '1')
+  if (topicStr != "home/tv/light/solid")
+  {
+    return;
+  }
+
+  DynamicJsonDocument doc(1024);
+  deserializeJson(doc, message);
+  JsonObject obji = doc.as<JsonObject>();
+
+  int redValue = obji["r"];
+  int greenValue = obji["g"];
+  int blueValue = obji["b"];
+
+  if (message == "1")
   {
     led.applyPreset(Solid);
   }
 
-  if ((char)payload[0] == '2')
+  if (message == "2")
   {
     led.applyPreset(SolidTwo);
   }
 
-  if ((char)payload[0] == '3')
+  if (message == "3")
   {
     led.applyPreset(Blue);
   }
 
-  if ((char)payload[0] == '4')
+  if (message == "4")
   {
     led.applyPreset(Yellow);
   }
+
+  // if (topicStr == "test/message")
+  // {
+  // if ((char)payload[0] == '1')
+  // {
+  //   led.applyPreset(Solid);
+  // }
+
+  // if ((char)payload[0] == '2')
+  // {
+  //   led.applyPreset(SolidTwo);
+  // }
+
+  // if ((char)payload[0] == '3')
+  // {
+  //   led.applyPreset(Blue);
+  // }
+
+  // if ((char)payload[0] == '4')
+  // {
+  //   led.applyPreset(Yellow);
+  // }
+  // }
 
   // char *message = "";
   // int i = 0;
@@ -95,7 +135,8 @@ void freeStr(char **str)
   *str = NULL;
 }
 
-char* resolveMessage(byte* message, unsigned int length) {
+char *resolveMessage(byte *message, unsigned int length)
+{
   char *temp = "";
   int i = 0;
 
@@ -121,10 +162,9 @@ void reconnect()
     if (mqtt.connect(clientId.c_str()))
     {
       Serial.println("HAS CONNECTED");
-      // Once connected, publish an announcement...
-      // ... and resubscribe
-      boolean x = mqtt.subscribe("test/#");
-      Serial.println(x);
+      // boolean x = mqtt.subscribe("test/#");
+      // Serial.println(x);
+      mqtt.subscribe("home/tv/light/#");
       Serial.println("Subscribed to topic");
     }
     else
@@ -140,14 +180,9 @@ void reconnect()
 
 void setup()
 {
-  // put your setup code here, to run once:
   Serial.begin(115200);
   led.connect();
 
-  // Serial.println("creating json");
-  // char *ycolor = "{\"r\":1,\"g\":2,\"b\":3}";
-  // Serial.println("creating color");
-  // SolidLight colorPreset = SolidLight(255, 0, 0);
   Serial.println("applying preset");
   led.applyPreset(Solid);
   delay(1000);
@@ -170,10 +205,6 @@ void loop()
     led.applyPreset(SolidTwo);
   }
   mqtt.loop();
-  // digitalWrite(2, LOW); // Turn the LED on (Note that LOW is the voltage level
-  // but actually the LED is on; this is because
-  // it is active low on the ESP-01)
-  // Turn the LED off by making the voltage HIGH
+
   delay(10);
-  // mqtt.publish("test/somethingelse", "hello world");
 }
