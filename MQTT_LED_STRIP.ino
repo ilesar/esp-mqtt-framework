@@ -23,108 +23,25 @@ void callback(char *topic, byte *payload, unsigned int length)
   String topicStr = topic;
   payload[length] = '\0';
   String message = (char *)payload;
-  // String message = "{\"r\":1,\"g\":0,\"b\":0}";
-
-  // if (topicStr != "home/tv/light/solid")
-  // {
-  //   return;
-  // }
 
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, message);
   JsonObject lightConfiguration = doc.as<JsonObject>();
-  led.applyPreset(Solid, lightConfiguration);
 
-  // if (lightConfiguration["r"] == "1")
-  // {
-  //   led.applyPreset(Solid, lightConfiguration);
-  // }
+  if (topicStr == "home/tv/light/solid")
+  {
+      led.applyPreset(Solid, lightConfiguration);
+  }
 
-  // if (lightConfiguration["g"] == "1")
-  // {
-  //   led.applyPreset(SolidTwo, lightConfiguration);
-  // }
+  if (topicStr == "home/tv/light/duotone")
+  {
+      led.applyPreset(DuoTone, lightConfiguration);
+  }
 
-  // if (lightConfiguration["b"] == "1")
-  // {
-  //   led.applyPreset(Blue, lightConfiguration);
-  // }
-
-  // if (lightConfiguration["r"] == 1)
-  // {
-  //   led.applyPreset(Yellow, lightConfiguration);
-  // }
-
-  // if (topicStr == "test/message")
-  // {
-  // if ((char)payload[0] == '1')
-  // {
-  //   led.applyPreset(Solid);
-  // }
-
-  // if ((char)payload[0] == '2')
-  // {
-  //   led.applyPreset(SolidTwo);
-  // }
-
-  // if ((char)payload[0] == '3')
-  // {
-  //   led.applyPreset(Blue);
-  // }
-
-  // if ((char)payload[0] == '4')
-  // {
-  //   led.applyPreset(Yellow);
-  // }
-  // }
-
-  // char *message = "";
-  // int i = 0;
-
-  // for (i; i < length; i++)
-  // {
-  //   strcat(message, (char *)&payload[0]);
-  // }
-  // message[i] = '\0';
-
-  // if (strcmp(message, "blue") == 0)
-  // {
-  //   led.applyPreset(Blue);
-  // }
-  // if (strcmp(message, "green") == 0)
-  // {
-  //   led.applyPreset(SolidTwo);
-  // }
-  // if (strcmp(message, "yellow") == 0)
-  // {
-  //   led.applyPreset(Yellow);
-  // }
-  // if (flaggy == false)
-  // {
-  //   flaggy = true;
-  //   // for (int i = 0; i < length; ++i)
-  //   // {
-  //   //   mqtt.publish("xtra/one", (char *)&payload[i]);
-  //   //   // Serial.print((char)payload[i]);
-  //   // }
-  // mqtt.publish("xtra/one", message);
-  // freeStr(&message);
-  //   // mqtt.publish("xtra/one", (char *) payload[0]);
-  // }
-
-  // mqtt.publish("test/somethingelse", INT2POINTER(length));
-  // mqtt.publish("test/somethingelse", reinterpret_cast<const char *>(topic));
-  // mqtt.publish("test/somethingelse", (char *)length);
-  // mqtt.publish("test/somethingelse", (char *)payload);
-  // digitalWrite(2, LOW);
-  // Serial.print("Message arrived [");
-  // Serial.print(topic);
-  // Serial.print("] ");
-  // for (int i = 0; i < length; i++)
-  // {
-  //   Serial.print((char)payload[i]);
-  // }
-  // Serial.println();
+  if (topicStr == "home/tv/light/wrapper")
+  {
+      led.applyPreset(Wrapper, lightConfiguration);
+  }
 }
 
 void freeStr(char **str)
@@ -199,7 +116,6 @@ void loop()
   if (!mqtt.connected())
   {
     reconnect();
-    led.applyPreset(SolidTwo);
   }
   mqtt.loop();
 

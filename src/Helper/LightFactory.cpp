@@ -2,6 +2,8 @@
 #include "../Enum/LightType.h"
 #include "../Interface/ILightable.h"
 #include "../Interface/SolidLight.h"
+#include "../Interface/DuoToneLight.h"
+#include "../Interface/WrapperLight.h"
 
 class LightFactory
 {
@@ -22,17 +24,7 @@ public:
     ILightable *getLight(LightType type)
     {
         if (type == Solid)
-            return new SolidLight(255, 0, 0);
-        if (type == SolidTwo)
-            return new SolidLight(0, 255, 0);
-        if (type == Blue)
-            return new SolidLight(0, 0, 255);
-        if (type == Yellow)
-            return new SolidLight(0, 255, 255);
-        // else if (type == VT_ThreeWheeler)
-        //     return new ThreeWheeler();
-        // else if (type == VT_FourWheeler)
-        //     return new FourWheeler();
+            return new SolidLight(43, 31, 1);
         else
             return NULL;
     }
@@ -41,16 +33,12 @@ public:
     {
         if (type == Solid)
             return new SolidLight(configuration["r"], configuration["g"], configuration["b"]);
-        // if (type == SolidTwo)
-        //     return new SolidLight(0, 255, 0);
-        // if (type == Blue)
-        //     return new SolidLight(0, 0, 255);
-        // if (type == Yellow)
-        //     return new SolidLight(0, 255, 255);
-        // else if (type == VT_ThreeWheeler)
-        //     return new ThreeWheeler();
-        // else if (type == VT_FourWheeler)
-        //     return new FourWheeler();
+        if (type == DuoTone)
+            return new DuoToneLight(configuration);
+        if (type == Wrapper)
+            return new WrapperLight(configuration);
+        if (type == Gradient)
+            return new SolidLight(configuration["r"], configuration["g"], configuration["b"]);
         else
             return NULL;
     }

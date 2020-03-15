@@ -16,33 +16,22 @@ void LedStripService::connect()
 // void LedStripService::applyPreset(Preset preset)
 void LedStripService::applyPreset(LightType type)
 {
-    // Serial.println("Stopping preset");
-    // _preset.stop();
     Serial.println("Assigning preset");
     ILightable *light = _lightFactory->getLight(type);
     Serial.println("Setting pixels");
     light->setPixels(&_pixels);
 
-    // ILightable *light = lightFactory->getLight(Solid);
-    // Serial.println("Starting preset");
-    // Serial.println("Starting preset");
     Serial.println("Starting preset");
     light->start();
 }
 
-// void LedStripService::applyPreset(Preset preset)
 void LedStripService::applyPreset(LightType type, JsonObject config)
 {
-    // Serial.println("Stopping preset");
-    // _preset.stop();
     Serial.println("Assigning preset");
     ILightable * light = _lightFactory->getLight(type, config);
     Serial.println("Setting pixels");
     light->setPixels(&_pixels);
     
-    // ILightable *light = lightFactory->getLight(Solid);
-    // Serial.println("Starting preset");
-    // Serial.println("Starting preset");
     Serial.println("Starting preset");
     light->start();
 }
