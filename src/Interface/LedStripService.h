@@ -2,6 +2,7 @@
 #define LED_STRIP_SERVICE
 
 #include <Adafruit_NeoPixel.h>
+#include <ArduinoJson.h>
 #include "./SolidLight.h"
 #include "./ILightable.h"
 #include "../Helper/LightFactory.cpp"
@@ -12,6 +13,7 @@ public:
     LedStripService(int digitalPin, int numberOfLights);
     void connect();
     void applyPreset(LightType type);
+    void applyPreset(LightType type, JsonObject config);
 
 private:
     Adafruit_NeoPixel _pixels;

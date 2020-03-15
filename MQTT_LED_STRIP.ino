@@ -16,7 +16,6 @@ bool flaggy = false;
 WiFiClient wifiClient;
 PubSubClient mqtt(wifiClient);
 LedStripService led(LED_PIN, LED_COUNT);
-// WirelessNetworkingService wifi("The Guest Mainframe", "guestguestguest");
 WirelessNetworkingService wifi("The Mainframe", "probajpogoditkoja");
 
 void callback(char *topic, byte *payload, unsigned int length)
@@ -24,39 +23,36 @@ void callback(char *topic, byte *payload, unsigned int length)
   String topicStr = topic;
   payload[length] = '\0';
   String message = (char *)payload;
+  // String message = "{\"r\":1,\"g\":0,\"b\":0}";
 
-  if (topicStr != "home/tv/light/solid")
-  {
-    return;
-  }
+  // if (topicStr != "home/tv/light/solid")
+  // {
+  //   return;
+  // }
 
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, message);
-  JsonObject obji = doc.as<JsonObject>();
+  JsonObject lightConfiguration = doc.as<JsonObject>();
 
-  int redValue = obji["r"];
-  int greenValue = obji["g"];
-  int blueValue = obji["b"];
-
-  if (message == "1")
+  if (lightConfiguration["r"] == "1")
   {
-    led.applyPreset(Solid);
+    led.applyPreset(Solid, lightConfiguration);
   }
 
-  if (message == "2")
+  if (lightConfiguration["g"] == "1")
   {
-    led.applyPreset(SolidTwo);
+    led.applyPreset(SolidTwo, lightConfiguration);
   }
 
-  if (message == "3")
+  if (lightConfiguration["b"] == "1")
   {
-    led.applyPreset(Blue);
+    led.applyPreset(Blue, lightConfiguration);
   }
 
-  if (message == "4")
-  {
-    led.applyPreset(Yellow);
-  }
+  // if (message == "4")
+  // {
+  //   led.applyPreset(Yellow, lightConfiguration);
+  // }
 
   // if (topicStr == "test/message")
   // {
