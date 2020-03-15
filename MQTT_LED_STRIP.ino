@@ -33,23 +33,24 @@ void callback(char *topic, byte *payload, unsigned int length)
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, message);
   JsonObject lightConfiguration = doc.as<JsonObject>();
+  led.applyPreset(Solid, lightConfiguration);
 
-  if (lightConfiguration["r"] == "1")
-  {
-    led.applyPreset(Solid, lightConfiguration);
-  }
+  // if (lightConfiguration["r"] == "1")
+  // {
+  //   led.applyPreset(Solid, lightConfiguration);
+  // }
 
-  if (lightConfiguration["g"] == "1")
-  {
-    led.applyPreset(SolidTwo, lightConfiguration);
-  }
+  // if (lightConfiguration["g"] == "1")
+  // {
+  //   led.applyPreset(SolidTwo, lightConfiguration);
+  // }
 
-  if (lightConfiguration["b"] == "1")
-  {
-    led.applyPreset(Blue, lightConfiguration);
-  }
+  // if (lightConfiguration["b"] == "1")
+  // {
+  //   led.applyPreset(Blue, lightConfiguration);
+  // }
 
-  // if (message == "4")
+  // if (lightConfiguration["r"] == 1)
   // {
   //   led.applyPreset(Yellow, lightConfiguration);
   // }
