@@ -27,7 +27,15 @@ void WrapperLight::start()
                                     _config["outer"]["r"],
                                     _config["outer"]["g"],
                                     _config["outer"]["b"]));
+    _pixels.setPixelColor(1, _pixels.Color(
+                                    _config["outer"]["r"],
+                                    _config["outer"]["g"],
+                                    _config["outer"]["b"]));
     _pixels.setPixelColor(length - 1, _pixels.Color(
+                                    _config["outer"]["r"],
+                                    _config["outer"]["g"],
+                                    _config["outer"]["b"]));
+    _pixels.setPixelColor(length - 2, _pixels.Color(
                                     _config["outer"]["r"],
                                     _config["outer"]["g"],
                                     _config["outer"]["b"]));

@@ -3,6 +3,7 @@
 
 enum LightType
 {
+    Boot,
     Solid,
     DuoTone,
     Wrapper,

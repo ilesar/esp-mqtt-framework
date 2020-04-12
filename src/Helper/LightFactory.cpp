@@ -4,6 +4,7 @@
 #include "../Interface/SolidLight.h"
 #include "../Interface/DuoToneLight.h"
 #include "../Interface/WrapperLight.h"
+#include "../Interface/BootAnimationLight.h"
 
 class LightFactory
 {
@@ -25,6 +26,8 @@ public:
     {
         if (type == Solid)
             return new SolidLight(43, 31, 1);
+        if (type == Boot)
+            return new BootAnimationLight();
         else
             return NULL;
     }

@@ -116,6 +116,7 @@ void loop()
   if (!mqtt.connected())
   {
     reconnect();
+    led.applyPreset(Boot);
   }
   mqtt.loop();
 
