@@ -9,10 +9,7 @@ DuoToneLight::DuoToneLight(JsonObject config) : ILightable()
 
 void DuoToneLight::start()
 {
-    Serial.println("ENTER");
     int length = _pixels.numPixels();
-    Serial.println("numpix");
-    Serial.println(length);
     int i = 0;
 
     for (i; i <= length / 2; i++)

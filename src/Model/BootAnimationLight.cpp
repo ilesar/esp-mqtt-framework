@@ -15,10 +15,10 @@ void BootAnimationLight::start()
     {
         for (int j = 0; j < length; j++)
         {
-        _pixels.setPixelColor(j, _pixels.Color(i, i, i));
+        _pixels.setPixelColor(j, _pixels.Color(0, i, 0));
         }
         _pixels.show();
-        delay(5);
+        delay(20);
     }
 }
 

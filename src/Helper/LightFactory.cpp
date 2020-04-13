@@ -25,7 +25,7 @@ public:
     ILightable *getLight(LightType type)
     {
         if (type == Solid)
-            return new SolidLight(43, 31, 1);
+            return new SolidLight(115, 0, 0);
         if (type == Boot)
             return new BootAnimationLight();
         else

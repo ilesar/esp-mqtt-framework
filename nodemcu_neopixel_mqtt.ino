@@ -4,19 +4,24 @@
 
 #include "./src/Interface/WirelessNetworkingService.h"
 #include "./src/Interface/LedStripService.h"
+#include "./src/Interface/FirmwareUpdateService.h"
 #include "./src/Interface/SolidLight.h"
 #include "./src/Enum/LightType.h"
 #define INT2POINTER(a) ((char *)(intptr_t)(a))
 
 #define LED_PIN 5
 #define LED_COUNT 15
+#define WIFI_SSID "The Mainframe"
+#define WIFI_PASSWORD "probajpogoditkoja"
+#define FIRMWARE_PASSWORD "admin"
+
 const char *mqtt_server = "192.168.31.125";
-bool flaggy = false;
 
 WiFiClient wifiClient;
 PubSubClient mqtt(wifiClient);
+FirmwareUpdateService firmwareUpdate(FIRMWARE_PASSWORD);
 LedStripService led(LED_PIN, LED_COUNT);
-WirelessNetworkingService wifi("The Mainframe", "probajpogoditkoja");
+WirelessNetworkingService wifi(WIFI_SSID, WIFI_PASSWORD);
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
@@ -30,17 +35,17 @@ void callback(char *topic, byte *payload, unsigned int length)
 
   if (topicStr == "home/tv/light/solid")
   {
-      led.applyPreset(Solid, lightConfiguration);
+    led.applyPreset(Solid, lightConfiguration);
   }
 
   if (topicStr == "home/tv/light/duotone")
   {
-      led.applyPreset(DuoTone, lightConfiguration);
+    led.applyPreset(DuoTone, lightConfiguration);
   }
 
   if (topicStr == "home/tv/light/wrapper")
   {
-      led.applyPreset(Wrapper, lightConfiguration);
+    led.applyPreset(Wrapper, lightConfiguration);
   }
 }
 
@@ -68,25 +73,19 @@ void reconnect()
   // Loop until we're reconnected
   while (!mqtt.connected())
   {
-    Serial.print("Attempting MQTT connection...");
-    // Create a random client ID
     String clientId = "ledstrip-";
     clientId += String(random(0xffff), HEX);
-    // Attempt to connect
+
     if (mqtt.connect(clientId.c_str()))
     {
-      Serial.println("HAS CONNECTED");
-      // boolean x = mqtt.subscribe("test/#");
-      // Serial.println(x);
+     
       mqtt.subscribe("home/tv/light/#");
-      Serial.println("Subscribed to topic");
     }
     else
     {
-      Serial.print("failed, rc=");
-      Serial.print(mqtt.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
+      // Serial.print("failed, rc=");
+      // Serial.print(mqtt.state());
+
       delay(5000);
     }
   }
@@ -94,31 +93,54 @@ void reconnect()
 
 void setup()
 {
+  Serial.println("STARTED SERIAL");
   Serial.begin(115200);
-  led.connect();
-
-  Serial.println("applying preset");
-  led.applyPreset(Solid);
   delay(1000);
 
+  Serial.println("SET PIN MODE");
   pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);
+  digitalWrite(2, LOW);
 
+  Serial.println("CONNECT LED");
+  led.connect();
+
+  Serial.println("APPLY PRESET");
+  led.applyPreset(Solid);
+  Serial.println("PRESET APPLIED");
+
+  
+
+  Serial.println("WIFI CONNECT");
   wifi.connect();
 
+  Serial.println("MQTT SERVER");
   mqtt.setServer(mqtt_server, 1883);
+  Serial.println("MQTT CALLBACK");
   mqtt.setCallback(callback);
+
+  Serial.println("FIRMWAREUPDATE");
+  firmwareUpdate.start();
+
+  led.applyPreset(Boot);
+
   delay(10);
 }
 
+int16_t lastMemorizedTime = 0;
+
 void loop()
 {
+  firmwareUpdate.waitForUpdate();
   if (!mqtt.connected())
   {
     reconnect();
-    led.applyPreset(Boot);
   }
   mqtt.loop();
+  
+  if (millis() - lastMemorizedTime > 200) {
+    lastMemorizedTime = millis();
+    digitalWrite(2, !digitalRead(2));
+  }
 
   delay(10);
 }

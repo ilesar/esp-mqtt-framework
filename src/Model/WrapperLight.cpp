@@ -9,10 +9,7 @@ WrapperLight::WrapperLight(JsonObject config) : ILightable()
 
 void WrapperLight::start()
 {
-    Serial.println("ENTER");
     int length = _pixels.numPixels();
-    Serial.println("numpix");
-    Serial.println(length);
     int i = 0;
 
     for (i; i < length; i++)

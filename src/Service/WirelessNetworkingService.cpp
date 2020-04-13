@@ -1,4 +1,5 @@
 #include "../Interface/WirelessNetworkingService.h"
+#include <ArduinoJson.h>
 
 WirelessNetworkingService::WirelessNetworkingService(char *ssid, char *password)
 {
@@ -13,8 +14,6 @@ bool WirelessNetworkingService::connect()
     setMode();
     setAccessPoints();
     init();
-
-    // /Users/ivan/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266WiFi/src
 }
 
 void WirelessNetworkingService::setMode()
@@ -28,11 +27,6 @@ void WirelessNetworkingService::setAccessPoints()
     WiFi.disconnect();
     delay(3000);
     Serial.print("Connecting...");
-
-    // IPAddress ip(192, 168, 31, 106);
-    // IPAddress gw(192, 168, 31, 1);
-    // IPAddress sn(255, 255, 255, 0);
-    // WiFi.config(ip, gw, sn, gw);
 
     Serial.println(_ssid);
     Serial.println(_password);

@@ -11,11 +11,7 @@ SolidLight::SolidLight(int red, int green, int blue) : ILightable()
 
 void SolidLight::start()
 {
-    Serial.println("ENTER");
     int length = _pixels.numPixels();
-    Serial.println("numpix");
-    Serial.println(length);
-
     for (int i = 0; i < length; i++)
     {
         _pixels.setPixelColor(i, _pixels.Color(
@@ -23,6 +19,7 @@ void SolidLight::start()
             _g,
             _b
         ));
+        delay(10);
     }
 
     _pixels.show();
