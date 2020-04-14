@@ -20,7 +20,7 @@ private:
     int _pin;
     int _length;
     LightFactory *_lightFactory;
-    SolidLight _preset;
+    ILightable *_light;
 };
 
 #endif

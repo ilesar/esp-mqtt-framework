@@ -15,11 +15,6 @@ public:
 
     ~LightFactory()
     {
-        if (light)
-        {
-            delete[] light;
-            light = NULL;
-        }
     }
 
     ILightable *getLight(LightType type)
@@ -45,8 +40,6 @@ public:
         else
             return NULL;
     }
-
-    ILightable *light;
 
     int randomNumber(int low, int high)
     {

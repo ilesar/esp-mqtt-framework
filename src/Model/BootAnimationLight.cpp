@@ -24,6 +24,17 @@ void BootAnimationLight::start()
 
 void BootAnimationLight::stop()
 {
+    // int length = _pixels.numPixels();
+
+    // for (int i = 255; i >= 0; i--)
+    // {
+    //     for (int j = 0; j < length; j++)
+    //     {
+    //         _pixels.setPixelColor(j, _pixels.Color(0, i, 0));
+    //     }
+    //     _pixels.show();
+    //     delay(20);
+    // }
 }
 
 void BootAnimationLight::parse(char *data, char *array[])

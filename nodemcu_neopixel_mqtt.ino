@@ -83,8 +83,8 @@ void reconnect()
     }
     else
     {
-      // Serial.print("failed, rc=");
-      // Serial.print(mqtt.state());
+      Serial.print("failed, rc=");
+      Serial.print(mqtt.state());
 
       delay(5000);
     }
@@ -93,7 +93,6 @@ void reconnect()
 
 void setup()
 {
-  Serial.println("STARTED SERIAL");
   Serial.begin(115200);
   delay(1000);
 
