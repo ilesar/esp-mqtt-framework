@@ -11,10 +11,11 @@ public:
     BootAnimationLight(JsonObject _configuration);
     void start();
     void stop();
-    void parse(char *data, char *array[]);
 
 private:
     JsonObject _configuration;
+
+    int dimChannel(int color);
 };
 
 #endif

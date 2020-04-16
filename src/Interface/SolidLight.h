@@ -14,10 +14,9 @@ public:
     void stop();
 
 private:
-    int _r;
-    int _g;
-    int _b;
     JsonObject _configuration;
+
+    int dimChannel(int color);
 };
 
 #endif

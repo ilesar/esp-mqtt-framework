@@ -12,7 +12,7 @@ class LedStripService
 public:
     LedStripService(int digitalPin, int numberOfLights);
     void connect();
-    void applyPreset(LightType type);
+    void applyPreset(LightType type, bool fadeOut = true);
     void applyPreset(LightType type, JsonObject &configuration);
 
 private:
@@ -20,7 +20,7 @@ private:
     int _pin;
     int _length;
     LightFactory *_lightFactory;
-    ILightable *_light;
+    ILightable *_light = NULL;
 };
 
 #endif

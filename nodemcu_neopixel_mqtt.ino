@@ -84,19 +84,15 @@ void kernelLoop()
 
 void setup()
 {
-  // pinMode(LED_BUILTIN, OUTPUT);
-  // Serial.begin(115200);
-  // Serial.println("");
-  // Serial.println("STARTED");
-  delay(1000);
-  led.connect();
-  led.applyPreset(Solid);
-  kernelSetup();
-  led.applyPreset(Boot);
-
   Serial.begin(115200);
   Serial.println("");
   Serial.println("STARTED");
+  
+  delay(1000);
+  led.connect();
+  led.applyPreset(Solid, true);
+  kernelSetup();
+  led.applyPreset(Boot);
 
   delay(10);
 }

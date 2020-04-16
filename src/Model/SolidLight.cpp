@@ -28,7 +28,7 @@ SolidLight::SolidLight(JsonObject &configuration) : ILightable()
 void SolidLight::start()
 {
     _pixels.clear();
-    
+
     int length = _pixels.numPixels();
 
     serializeJson(_configuration, Serial);
@@ -38,9 +38,8 @@ void SolidLight::start()
         _pixels.setPixelColor(i, _pixels.Color(
                                      _configuration["configs"][i]["r"],
                                      _configuration["configs"][i]["g"],
-                                     _configuration["configs"][i]["b"]
-                                     ));
-       
+                                     _configuration["configs"][i]["b"]));
+
         delay(10);
     }
 
@@ -49,30 +48,35 @@ void SolidLight::start()
 
 void SolidLight::stop()
 {
-    // int length = _pixels.numPixels();
+    int length = _pixels.numPixels();
+    bool hasLivePixel = true;
 
-    // while (_r != 0 || _g != 0 || _b != 0)
-    // {
-    //     if (_r > 0)
-    //     {
-    //         _r--;
-    //     }
+    while(hasLivePixel == true) {
 
-    //     if (_g > 0)
-    //     {
-    //         _g--;
-    //     }
+        hasLivePixel = false;
 
-    //     if (_b > 0)
-    //     {
-    //         _b--;
-    //     }
+        for (int i = 0; i < length; i++)
+        {
+            long color = _pixels.getPixelColor(i);
+            Serial.println("COLOR");
+            Serial.println(color);
+            int red = dimChannel((uint8_t)((color >> 16) & 0xff));
+            int green = dimChannel((uint8_t)((color >> 8) & 0xff));
+            int blue = dimChannel((uint8_t)(color & 0xff));
 
-    //     for (int j = 0; j < length; j++)
-    //     {
-    //         _pixels.setPixelColor(j, _pixels.Color(_r, _g, _b));
-    //     }
-    //     _pixels.show();
-    //     delay(20);
-    // }
+            if (red != 0 || green != 0 || blue != 0) {
+                hasLivePixel = true;
+            }
+
+            _pixels.setPixelColor(i, _pixels.Color(red, green, blue));
+        }
+
+        _pixels.show();
+        delay(10);
+    }
+}
+
+int SolidLight::dimChannel(int color)
+{
+    return constrain(color - 1, 0, 255);
 }
