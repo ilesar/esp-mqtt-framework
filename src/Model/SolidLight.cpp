@@ -56,7 +56,7 @@ void SolidLight::start()
         }
 
         _pixels.show();
-        delay(3);
+        delay(5);
     }
 }
 

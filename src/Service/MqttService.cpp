@@ -39,7 +39,7 @@ void MqttService::reconnect()
         if (_client.connect(clientId.c_str()))
         {
 
-            _client.subscribe("home/tv/light/#");
+            _client.subscribe("15ledstrip");
         }
         else
         {
