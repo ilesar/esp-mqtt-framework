@@ -58,18 +58,6 @@ void SolidLight::start()
         _pixels.show();
         delay(3);
     }
-
-    // for (int i = 0; i < length; i++)
-    // {
-    //     _pixels.setPixelColor(i, _pixels.Color(
-    //                                  _configuration["configs"][i]["r"],
-    //                                  _configuration["configs"][i]["g"],
-    //                                  _configuration["configs"][i]["b"]));
-
-    //     delay(10);
-    // }
-
-    // _pixels.show();
 }
 
 void SolidLight::stop()

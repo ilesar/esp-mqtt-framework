@@ -24,33 +24,32 @@ void BootAnimationLight::start()
 
 void BootAnimationLight::stop()
 {
-    // int length = _pixels.numPixels();
-    // bool hasLivePixel = true;
+    int length = _pixels.numPixels();
+    bool hasLivePixel = true;
 
-    // while (hasLivePixel == true)
-    // {
+    while (hasLivePixel == true)
+    {
 
-    //     hasLivePixel = false;
+        hasLivePixel = false;
 
-    //     for (int i = 0; i < length; i++)
-    //     {
-    //         uint32_t color = _pixels.getPixelColor(i);
+        for (int i = 0; i < length; i++)
+        {
+            long color = _pixels.getPixelColor(i);
+            int red = dimChannel((uint8_t)((color >> 16) & 0xff));
+            int green = dimChannel((uint8_t)((color >> 8) & 0xff));
+            int blue = dimChannel((uint8_t)(color & 0xff));
 
-    //         int red = dimChannel(color >> 16);
-    //         int green = dimChannel(color >> 8);
-    //         int blue = dimChannel(color);
+            if (red != 0 || green != 0 || blue != 0)
+            {
+                hasLivePixel = true;
+            }
 
-    //         if (red != 0 || green != 0 || blue != 0)
-    //         {
-    //             hasLivePixel = true;
-    //         }
+            _pixels.setPixelColor(i, _pixels.Color(red, green, blue));
+        }
 
-    //         _pixels.setPixelColor(i, _pixels.Color(red, green, blue));
-    //     }
-
-    //     _pixels.show();
-    //     delay(10);
-    // }
+        _pixels.show();
+        delay(3);
+    }
 }
 
 int BootAnimationLight::dimChannel(int color)

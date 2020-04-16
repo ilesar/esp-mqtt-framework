@@ -24,10 +24,13 @@ FirmwareUpdateService firmwareUpdate(FIRMWARE_PASSWORD);
 LedStripService led(LED_PIN, LED_COUNT);
 WirelessNetworkingService wifi(WIFI_SSID, WIFI_PASSWORD);
 
-JsonObject parsePayload(uint8_t *payload, unsigned int length)
+void onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
 {
+  Serial.println("GOT MESSAGE");
+  String topic = (String)charTopic;
+
   payload[length] = '\0';
-  char* message = (char *)payload;
+  char *message = (char *)payload;
 
   Serial.println("STRING");
   Serial.println(message);
@@ -43,29 +46,14 @@ JsonObject parsePayload(uint8_t *payload, unsigned int length)
 
   JsonObject configuration = doc.as<JsonObject>();
 
-  return configuration;
-}
-
-String parseTopic(char *topic)
-{
-  return (String)topic;
-}
-
-void onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
-{
-  Serial.println("GOT MESSAGE");
-  String topic = parseTopic(charTopic);
-  JsonObject configuration = parsePayload(payload, length);
+  Serial.println("TOPICO");
+  serializeJson(configuration, Serial);
+  Serial.println("");
 
   if (topic == "home/tv/light/solid")
   {
     led.applyPreset(Solid, configuration);
   }
-
-  // if (topic == "home/tv/light/transition")
-  // {
-  //   led.applyPreset(Transition, configuration);
-  // }
 }
 
 void kernelSetup()
@@ -84,14 +72,22 @@ void kernelLoop()
 
 void setup()
 {
-  Serial.begin(115200);
-  Serial.println("");
-  Serial.println("STARTED");
+  // Serial.begin(115200);
+  // Serial.println("");
+  // Serial.println("STARTED");
   
   delay(1000);
+
   led.connect();
-  led.applyPreset(Solid, true);
+  // led.applyPreset(Solid, true);
   kernelSetup();
+
+  Serial.begin(115200);
+  delay(1000);
+  Serial.println("");
+  Serial.println("STARTED");
+  delay(1000);
+
   led.applyPreset(Boot);
 
   delay(10);
