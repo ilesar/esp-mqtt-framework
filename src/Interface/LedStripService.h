@@ -13,7 +13,7 @@ public:
     LedStripService(int digitalPin, int numberOfLights);
     void connect();
     void applyPreset(LightType type);
-    void applyPreset(LightType type, JsonObject configuration);
+    void applyPreset(LightType type, JsonObject &configuration);
 
 private:
     Adafruit_NeoPixel _pixels;

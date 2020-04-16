@@ -9,7 +9,7 @@ class SolidLight : public ILightable
 public:
     SolidLight();
     SolidLight(int red, int green, int blue);
-    SolidLight(JsonObject configuration);
+    SolidLight(JsonObject &configuration);
     void start();
     void stop();
 

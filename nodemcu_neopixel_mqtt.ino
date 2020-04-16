@@ -24,51 +24,43 @@ FirmwareUpdateService firmwareUpdate(FIRMWARE_PASSWORD);
 LedStripService led(LED_PIN, LED_COUNT);
 WirelessNetworkingService wifi(WIFI_SSID, WIFI_PASSWORD);
 
-// JsonArray parsePayload(uint8_t *payload, unsigned int length)
-// {
-//   payload[length] = '\0';
-//   String message = (char *)payload;
+JsonObject parsePayload(uint8_t *payload, unsigned int length)
+{
+  payload[length] = '\0';
+  char* message = (char *)payload;
 
-//   DynamicJsonDocument doc(4096);
-//   auto error = deserializeJson(doc, message);
+  Serial.println("STRING");
+  Serial.println(message);
 
-//   if (error)
-//   {
-//     Serial.print(F("deserializeJson() failed with code "));
-//     Serial.println(error.c_str());
-//   }
+  DynamicJsonDocument doc(4096);
+  auto error = deserializeJson(doc, message);
 
-//   Serial.println("message");
-//   Serial.println(message);
-//   Serial.println("doc");
-//   serializeJson(doc, Serial);
-//   Serial.println("");
-//   JsonArray lightConfiguration = doc.as<JsonArray>();
-//   JsonObject test = doc.as<JsonObject>();
+  if (error)
+  {
+    Serial.print(F("deserializeJson() failed with code "));
+    Serial.println(error.c_str());
+  }
 
-//   Serial.println("PAYLOAD TEST");
-//   serializeJson(test, Serial);
-//   Serial.println("");
-//   return lightConfiguration;
-// }
+  JsonObject configuration = doc.as<JsonObject>();
 
-// String parseTopic(char *topic)
-// {
-//   return (String)topic;
-// }
+  return configuration;
+}
+
+String parseTopic(char *topic)
+{
+  return (String)topic;
+}
 
 void onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
 {
-  // digitalWrite(2, LOW);
-  // Serial.println("GOT MESSAGE");
-  // String topic = parseTopic(charTopic);
-  // JsonArray configuration = parsePayload(payload, length);
+  Serial.println("GOT MESSAGE");
+  String topic = parseTopic(charTopic);
+  JsonObject configuration = parsePayload(payload, length);
 
-  // Serial.println("callings");
-  // if (topic == "home/tv/light/solid")
-  // {
-  //   led.applyPreset(Solid, configuration);
-  // }
+  if (topic == "home/tv/light/solid")
+  {
+    led.applyPreset(Solid, configuration);
+  }
 
   // if (topic == "home/tv/light/transition")
   // {
@@ -78,12 +70,9 @@ void onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
 
 void kernelSetup()
 {
-  Serial.println("WIFI SETUP...");
   wifi.connect();
-  Serial.println("MQTT SETUP...");
   mqtt.setup(onMqttMessage);
   mqtt.connect();
-  Serial.println("FIRMWARE UPDATE SETUP...");
   firmwareUpdate.setup();
 }
 
@@ -96,18 +85,18 @@ void kernelLoop()
 void setup()
 {
   // pinMode(LED_BUILTIN, OUTPUT);
-  Serial.begin(115200);
-  Serial.println("");
-  Serial.println("STARTED");
+  // Serial.begin(115200);
+  // Serial.println("");
+  // Serial.println("STARTED");
   delay(1000);
   led.connect();
   led.applyPreset(Solid);
-  // led.applyPreset(Solid);
-  // Serial.begin(115200);
-  // delay(1000);
-  Serial.println("KERNEL SETUP...");
   kernelSetup();
   led.applyPreset(Boot);
+
+  Serial.begin(115200);
+  Serial.println("");
+  Serial.println("STARTED");
 
   delay(10);
 }
@@ -115,9 +104,5 @@ void setup()
 void loop()
 {
   kernelLoop();
-  // digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
-  // delay(1000);                     // wait for a second
-  // digitalWrite(LED_BUILTIN, LOW);  // turn the LED off by making the voltage LOW
-  // delay(1000);
   delay(10);
 }

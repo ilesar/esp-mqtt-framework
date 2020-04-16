@@ -27,15 +27,15 @@ public:
             return NULL;
     }
 
-    ILightable *getLight(LightType type, JsonObject configuration)
+    ILightable *getLight(LightType type, JsonObject &configuration)
     {
         // Serial.println("TEST");
         // serializeJson(configuration, Serial);
 
         if (type == Solid)
             return new SolidLight(configuration);
-        if (type == Transition)
-            return new TransitionLight(configuration);
+        // if (type == Transition)
+        //     return new TransitionLight(configuration);
         // if (type == Wrapper)
         //     return new WrapperLight(configuration);
         // if (type == Gradient)

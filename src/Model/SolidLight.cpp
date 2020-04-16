@@ -20,7 +20,7 @@ SolidLight::SolidLight(int red, int green, int blue) : ILightable()
     _configuration = root;
 }
 
-SolidLight::SolidLight(JsonObject configuration) : ILightable()
+SolidLight::SolidLight(JsonObject &configuration) : ILightable()
 {
     _configuration = configuration;
 }
@@ -31,12 +31,14 @@ void SolidLight::start()
     
     int length = _pixels.numPixels();
 
+    serializeJson(_configuration, Serial);
+
     for (int i = 0; i < length; i++)
     {
         _pixels.setPixelColor(i, _pixels.Color(
-                                     _configuration["configs"][0]["r"],
-                                     _configuration["configs"][0]["g"],
-                                     _configuration["configs"][0]["b"]
+                                     _configuration["configs"][i]["r"],
+                                     _configuration["configs"][i]["g"],
+                                     _configuration["configs"][i]["b"]
                                      ));
        
         delay(10);
