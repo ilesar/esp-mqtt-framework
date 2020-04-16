@@ -2,33 +2,33 @@
 
 TransitionLight::TransitionLight() : ILightable() {}
 
-TransitionLight::TransitionLight(JsonArray config) : ILightable()
+TransitionLight::TransitionLight(JsonObject configuration) : ILightable()
 {
-    _config = config;
+    _configuration = configuration;
 }
 
 void TransitionLight::start()
 {
-    int length = _pixels.numPixels();
-    int i = 0;
+    // int length = _pixels.numPixels();
+    // int i = 0;
 
-    for (i; i <= length / 2; i++)
-    {
-        _pixels.setPixelColor(i, _pixels.Color(
-                                     _config["start"]["r"],
-                                     _config["start"]["g"],
-                                     _config["start"]["b"]));
-    }
+    // for (i; i <= length / 2; i++)
+    // {
+    //     _pixels.setPixelColor(i, _pixels.Color(
+    //                                  _configuration["start"]["r"],
+    //                                  _configuration["start"]["g"],
+    //                                  _configuration["start"]["b"]));
+    // }
 
-    for (i = i; i < length; i++)
-    {
-        _pixels.setPixelColor(i, _pixels.Color(
-                                     _config["end"]["r"],
-                                     _config["end"]["g"],
-                                     _config["end"]["b"]));
-    }
+    // for (i = i; i < length; i++)
+    // {
+    //     _pixels.setPixelColor(i, _pixels.Color(
+    //                                  _configuration["end"]["r"],
+    //                                  _configuration["end"]["g"],
+    //                                  _configuration["end"]["b"]));
+    // }
 
-    _pixels.show();
+    // _pixels.show();
 }
 
 void TransitionLight::stop()

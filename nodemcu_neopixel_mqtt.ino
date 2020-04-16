@@ -10,6 +10,7 @@
 #include "./src/Enum/LightType.h"
 #define INT2POINTER(a) ((char *)(intptr_t)(a))
 
+#define DEVICE_ID "home/tv/light/"
 #define LED_PIN 5
 #define LED_COUNT 15
 #define WIFI_SSID "The Mainframe"
@@ -23,53 +24,100 @@ FirmwareUpdateService firmwareUpdate(FIRMWARE_PASSWORD);
 LedStripService led(LED_PIN, LED_COUNT);
 WirelessNetworkingService wifi(WIFI_SSID, WIFI_PASSWORD);
 
-void onMqttMessage(char *topic, byte *payload, unsigned int length)
+// JsonArray parsePayload(uint8_t *payload, unsigned int length)
+// {
+//   payload[length] = '\0';
+//   String message = (char *)payload;
+
+//   DynamicJsonDocument doc(4096);
+//   auto error = deserializeJson(doc, message);
+
+//   if (error)
+//   {
+//     Serial.print(F("deserializeJson() failed with code "));
+//     Serial.println(error.c_str());
+//   }
+
+//   Serial.println("message");
+//   Serial.println(message);
+//   Serial.println("doc");
+//   serializeJson(doc, Serial);
+//   Serial.println("");
+//   JsonArray lightConfiguration = doc.as<JsonArray>();
+//   JsonObject test = doc.as<JsonObject>();
+
+//   Serial.println("PAYLOAD TEST");
+//   serializeJson(test, Serial);
+//   Serial.println("");
+//   return lightConfiguration;
+// }
+
+// String parseTopic(char *topic)
+// {
+//   return (String)topic;
+// }
+
+void onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
 {
-  String topicStr = topic;
-  payload[length] = '\0';
-  String message = (char *)payload;
+  // digitalWrite(2, LOW);
+  // Serial.println("GOT MESSAGE");
+  // String topic = parseTopic(charTopic);
+  // JsonArray configuration = parsePayload(payload, length);
 
-  DynamicJsonDocument doc(1024);
-  deserializeJson(doc, message);
-  JsonObject lightConfiguration = doc.as<JsonObject>();
+  // Serial.println("callings");
+  // if (topic == "home/tv/light/solid")
+  // {
+  //   led.applyPreset(Solid, configuration);
+  // }
 
-  if (topicStr == "home/tv/light/solid")
-  {
-    led.applyPreset(Solid, lightConfiguration);
-  }
+  // if (topic == "home/tv/light/transition")
+  // {
+  //   led.applyPreset(Transition, configuration);
+  // }
+}
 
-  if (topicStr == "home/tv/light/duotone")
-  {
-    led.applyPreset(DuoTone, lightConfiguration);
-  }
+void kernelSetup()
+{
+  Serial.println("WIFI SETUP...");
+  wifi.connect();
+  Serial.println("MQTT SETUP...");
+  mqtt.setup(onMqttMessage);
+  mqtt.connect();
+  Serial.println("FIRMWARE UPDATE SETUP...");
+  firmwareUpdate.setup();
+}
 
-  if (topicStr == "home/tv/light/wrapper")
-  {
-    led.applyPreset(Wrapper, lightConfiguration);
-  }
+void kernelLoop()
+{
+  firmwareUpdate.waitForUpdate();
+  mqtt.loop();
 }
 
 void setup()
 {
+  // pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
+  Serial.println("");
+  Serial.println("STARTED");
   delay(1000);
-
   led.connect();
   led.applyPreset(Solid);
-  wifi.connect();
-  mqtt.setup(onMqttMessage);
-  firmwareUpdate.start();
+  // led.applyPreset(Solid);
+  // Serial.begin(115200);
+  // delay(1000);
+  Serial.println("KERNEL SETUP...");
+  kernelSetup();
   led.applyPreset(Boot);
 
   delay(10);
 }
 
-int16_t lastMemorizedTime = 0;
-
 void loop()
 {
-  firmwareUpdate.waitForUpdate();
-  mqtt.loop();
-  
+  kernelLoop();
+  // digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
+  // delay(1000);                     // wait for a second
+  // digitalWrite(LED_BUILTIN, LOW);  // turn the LED off by making the voltage LOW
+  // delay(1000);
   delay(10);
 }

@@ -4,17 +4,41 @@ SolidLight::SolidLight() : ILightable() {}
 
 SolidLight::SolidLight(int red, int green, int blue) : ILightable()
 {
-    _r = red;
-    _g = green;
-    _b = blue;
+    DynamicJsonDocument doc(4096);
+    JsonObject root = doc.to<JsonObject>();
+
+    JsonArray configurationArray = root.createNestedArray("configs");
+
+    for (int i = 0; i < 15; i++)
+    {
+        JsonObject configurationObject = configurationArray.createNestedObject();
+        configurationObject["r"] = red;
+        configurationObject["g"] = green;
+        configurationObject["b"] = blue;
+    }
+
+    _configuration = root;
+}
+
+SolidLight::SolidLight(JsonObject configuration) : ILightable()
+{
+    _configuration = configuration;
 }
 
 void SolidLight::start()
 {
+    _pixels.clear();
+    
     int length = _pixels.numPixels();
+
     for (int i = 0; i < length; i++)
     {
-        _pixels.setPixelColor(i, _pixels.Color(_r, _g, _b));
+        _pixels.setPixelColor(i, _pixels.Color(
+                                     _configuration["configs"][0]["r"],
+                                     _configuration["configs"][0]["g"],
+                                     _configuration["configs"][0]["b"]
+                                     ));
+       
         delay(10);
     }
 
@@ -49,15 +73,4 @@ void SolidLight::stop()
     //     _pixels.show();
     //     delay(20);
     // }
-}
-
-void SolidLight::parse(char *data, char *array[])
-{
-    int i = 0;
-    array[i] = strtok(data, "/");
-
-    while (array[i] != NULL)
-    {
-        array[++i] = strtok(NULL, "/");
-    }
 }

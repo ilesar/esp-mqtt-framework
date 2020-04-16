@@ -6,13 +6,15 @@
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
 
+#define MQTT_SERVICE_CALLBACK_SIGNATURE void (*callback)(String topic, JsonObject configuration)
+
 class MqttService
 {
 public:
     MqttService(char *host, int port);
-    void setup(MQTT_CALLBACK_SIGNATURE);
+    void setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length));
+    void connect();
     void loop();
-    
 
 private:
     void reconnect();

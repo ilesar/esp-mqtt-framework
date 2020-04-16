@@ -10,7 +10,7 @@ class FirmwareUpdateService
 public:
     FirmwareUpdateService(char *password);
     void waitForUpdate();
-    void start();
+    void setup();
 
 private:
     char *_password;

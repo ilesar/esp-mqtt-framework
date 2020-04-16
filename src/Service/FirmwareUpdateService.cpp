@@ -5,7 +5,7 @@ FirmwareUpdateService::FirmwareUpdateService(char *password)
     _password = password;
 }
 
-void FirmwareUpdateService::start()
+void FirmwareUpdateService::setup()
 {
     Serial.println("Starting service");
     FirmwareUpdateService::setAuthorization(_password);
@@ -24,14 +24,14 @@ void FirmwareUpdateService::waitForUpdate()
     if (_canUpdateFlag)
     {
         uint16_t timeStart = millis();
-        Serial.print("Can update for 15 seconds...");
+        Serial.println("Can update for 15 seconds...");
         while (_timeElapsed < 15000)
         {
             ArduinoOTA.handle();
             _timeElapsed = millis() - timeStart;
             delay(10);
         }
-        Serial.print("Update period ended");
+        Serial.println("Update period ended");
         _canUpdateFlag = false;
     }
 

@@ -21,9 +21,11 @@ void LedStripService::applyPreset(LightType type)
     light->start();
 }
 
-void LedStripService::applyPreset(LightType type, JsonObject config)
+void LedStripService::applyPreset(LightType type, JsonObject configuration)
 {
-    ILightable *light = _lightFactory->getLight(type, config);
+    // Serial.println("service");
+    // serializeJson(config, Serial);
+    ILightable *light = _lightFactory->getLight(type, configuration);
     light->setPixels(&_pixels);
 
     light->start();

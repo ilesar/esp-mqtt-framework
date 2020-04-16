@@ -8,13 +8,13 @@ class BootAnimationLight : public ILightable
 {
 public:
     BootAnimationLight();
-    BootAnimationLight(JsonObject config);
+    BootAnimationLight(JsonObject _configuration);
     void start();
     void stop();
     void parse(char *data, char *array[]);
 
 private:
-    JsonObject _config;
+    JsonObject _configuration;
 };
 
 #endif

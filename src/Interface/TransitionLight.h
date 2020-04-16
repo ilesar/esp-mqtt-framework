@@ -8,12 +8,12 @@ class TransitionLight : public ILightable
 {
 public:
     TransitionLight();
-    TransitionLight(JsonArray config);
+    TransitionLight(JsonObject configuration);
     void start();
     void stop();
 
 private:
-    JsonArray _config;
+    JsonObject _configuration;
 };
 
 #endif

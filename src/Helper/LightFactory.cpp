@@ -2,7 +2,7 @@
 #include "../Enum/LightType.h"
 #include "../Interface/ILightable.h"
 #include "../Interface/SolidLight.h"
-#include "../Interface/DuoToneLight.h"
+#include "../Interface/TransitionLight.h"
 #include "../Interface/WrapperLight.h"
 #include "../Interface/BootAnimationLight.h"
 
@@ -20,7 +20,7 @@ public:
     ILightable *getLight(LightType type)
     {
         if (type == Solid)
-            return new SolidLight(115, 0, 0);
+            return new SolidLight(255, 0, 0);
         if (type == Boot)
             return new BootAnimationLight();
         else
@@ -29,14 +29,17 @@ public:
 
     ILightable *getLight(LightType type, JsonObject configuration)
     {
+        // Serial.println("TEST");
+        // serializeJson(configuration, Serial);
+
         if (type == Solid)
-            return new SolidLight(configuration["r"], configuration["g"], configuration["b"]);
-        if (type == DuoTone)
-            return new DuoToneLight(configuration);
-        if (type == Wrapper)
-            return new WrapperLight(configuration);
-        if (type == Gradient)
-            return new SolidLight(configuration["r"], configuration["g"], configuration["b"]);
+            return new SolidLight(configuration);
+        if (type == Transition)
+            return new TransitionLight(configuration);
+        // if (type == Wrapper)
+        //     return new WrapperLight(configuration);
+        // if (type == Gradient)
+        //     return new SolidLight(configuration);
         else
             return NULL;
     }

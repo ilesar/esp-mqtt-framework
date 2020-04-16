@@ -7,23 +7,30 @@ MqttService::MqttService(char* host, int port)
     _client = PubSubClient(_wifiClient);
 }
 
-void MqttService::setup(MQTT_CALLBACK_SIGNATURE)
+void MqttService::setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length))
 {
     _client.setServer(_host, _port);
+    Serial.println("Setting callback");
     _client.setCallback(callback);
 }
 
 void MqttService::loop()
 {
+    connect();
+    _client.loop();
+}
+
+void MqttService::connect()
+{
     if (!_client.connected())
     {
         reconnect();
     }
-    _client.loop();
 }
 
 void MqttService::reconnect()
 {
+    Serial.println("Connecting to MQTT...");
     while (!_client.connected())
     {
         String clientId = "ledstrip-";
@@ -42,4 +49,5 @@ void MqttService::reconnect()
             delay(5000);
         }
     }
+    Serial.println("Connected to MQTT");
 }

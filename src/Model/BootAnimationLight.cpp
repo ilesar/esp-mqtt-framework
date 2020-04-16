@@ -2,9 +2,9 @@
 
 BootAnimationLight::BootAnimationLight() : ILightable() {}
 
-BootAnimationLight::BootAnimationLight(JsonObject config) : ILightable()
+BootAnimationLight::BootAnimationLight(JsonObject configuration) : ILightable()
 {
-    _config = config;
+    _configuration = configuration;
 }
 
 void BootAnimationLight::start()
