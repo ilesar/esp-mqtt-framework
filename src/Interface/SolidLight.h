@@ -17,6 +17,7 @@ private:
     JsonObject _configuration;
 
     int dimChannel(int color);
+    int brightenChannel(int color, int colorTarget);
 };
 
 #endif

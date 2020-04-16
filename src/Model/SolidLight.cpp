@@ -30,41 +30,25 @@ void SolidLight::start()
     _pixels.clear();
 
     int length = _pixels.numPixels();
-
-    serializeJson(_configuration, Serial);
-
-    for (int i = 0; i < length; i++)
-    {
-        _pixels.setPixelColor(i, _pixels.Color(
-                                     _configuration["configs"][i]["r"],
-                                     _configuration["configs"][i]["g"],
-                                     _configuration["configs"][i]["b"]));
-
-        delay(10);
-    }
-
-    _pixels.show();
-}
-
-void SolidLight::stop()
-{
-    int length = _pixels.numPixels();
     bool hasLivePixel = true;
 
-    while(hasLivePixel == true) {
-
+    while (hasLivePixel == true)
+    {
         hasLivePixel = false;
 
         for (int i = 0; i < length; i++)
         {
-            long color = _pixels.getPixelColor(i);
-            Serial.println("COLOR");
-            Serial.println(color);
-            int red = dimChannel((uint8_t)((color >> 16) & 0xff));
-            int green = dimChannel((uint8_t)((color >> 8) & 0xff));
-            int blue = dimChannel((uint8_t)(color & 0xff));
+            int targetRed = _configuration["configs"][i]["r"];
+            int targetGreen = _configuration["configs"][i]["g"];
+            int targetBlue = _configuration["configs"][i]["b"];
 
-            if (red != 0 || green != 0 || blue != 0) {
+            long color = _pixels.getPixelColor(i);
+            int red = brightenChannel((uint8_t)((color >> 16) & 0xff), targetRed);
+            int green = brightenChannel((uint8_t)((color >> 8) & 0xff), targetGreen);
+            int blue = brightenChannel((uint8_t)(color & 0xff), targetBlue);
+
+            if (red != targetRed || green != targetGreen || blue != targetBlue)
+            {
                 hasLivePixel = true;
             }
 
@@ -72,11 +56,58 @@ void SolidLight::stop()
         }
 
         _pixels.show();
-        delay(10);
+        delay(3);
+    }
+
+    // for (int i = 0; i < length; i++)
+    // {
+    //     _pixels.setPixelColor(i, _pixels.Color(
+    //                                  _configuration["configs"][i]["r"],
+    //                                  _configuration["configs"][i]["g"],
+    //                                  _configuration["configs"][i]["b"]));
+
+    //     delay(10);
+    // }
+
+    // _pixels.show();
+}
+
+void SolidLight::stop()
+{
+    int length = _pixels.numPixels();
+    bool hasLivePixel = true;
+
+    while (hasLivePixel == true)
+    {
+
+        hasLivePixel = false;
+
+        for (int i = 0; i < length; i++)
+        {
+            long color = _pixels.getPixelColor(i);
+            int red = dimChannel((uint8_t)((color >> 16) & 0xff));
+            int green = dimChannel((uint8_t)((color >> 8) & 0xff));
+            int blue = dimChannel((uint8_t)(color & 0xff));
+
+            if (red != 0 || green != 0 || blue != 0)
+            {
+                hasLivePixel = true;
+            }
+
+            _pixels.setPixelColor(i, _pixels.Color(red, green, blue));
+        }
+
+        _pixels.show();
+        delay(3);
     }
 }
 
 int SolidLight::dimChannel(int color)
 {
     return constrain(color - 1, 0, 255);
+}
+
+int SolidLight::brightenChannel(int color, int colorTarget)
+{
+    return constrain(color + 1, 0, colorTarget);
 }
