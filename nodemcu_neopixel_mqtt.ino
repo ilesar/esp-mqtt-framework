@@ -10,16 +10,16 @@
 #include "./src/Enum/LightType.h"
 #define INT2POINTER(a) ((char *)(intptr_t)(a))
 
-#define DEVICE_ID "15ledstrip"
+#define DEVICE_ID "30ledstrip"
 #define LED_PIN 5
-#define LED_COUNT 15
+#define LED_COUNT 30
 #define WIFI_SSID "The Mainframe"
 #define WIFI_PASSWORD "probajpogoditkoja"
 #define FIRMWARE_PASSWORD "admin"
 #define MQTT_HOST "192.168.31.125"
 #define MQTT_PORT 1883
 
-MqttService mqtt(MQTT_HOST, MQTT_PORT);
+MqttService mqtt(MQTT_HOST, MQTT_PORT, DEVICE_ID);
 FirmwareUpdateService firmwareUpdate(FIRMWARE_PASSWORD);
 LedStripService led(LED_PIN, LED_COUNT);
 WirelessNetworkingService wifi(WIFI_SSID, WIFI_PASSWORD);

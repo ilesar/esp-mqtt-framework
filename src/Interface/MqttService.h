@@ -11,7 +11,7 @@
 class MqttService
 {
 public:
-    MqttService(char *host, int port);
+    MqttService(char *host, int port, char *deviceId);
     void setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length));
     void connect();
     void loop();
@@ -23,6 +23,7 @@ private:
 
     char *_host;
     int _port;
+    char *_deviceId;
 };
 
 #endif

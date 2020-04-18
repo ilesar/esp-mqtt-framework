@@ -1,9 +1,10 @@
 #include "../Interface/MqttService.h"
 
-MqttService::MqttService(char* host, int port)
+MqttService::MqttService(char* host, int port, char* deviceId)
 {
     _host = host;
     _port = port;
+    _deviceId = deviceId;
     _client = PubSubClient(_wifiClient);
 }
 
@@ -39,7 +40,7 @@ void MqttService::reconnect()
         if (_client.connect(clientId.c_str()))
         {
 
-            _client.subscribe("15ledstrip");
+            _client.subscribe(_deviceId);
         }
         else
         {
