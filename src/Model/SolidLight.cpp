@@ -9,7 +9,7 @@ SolidLight::SolidLight(int red, int green, int blue) : ILightable()
 
     JsonArray configurationArray = root.createNestedArray("configs");
 
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 15; i++)
     {
         JsonObject configurationObject = configurationArray.createNestedObject();
         configurationObject["r"] = red;

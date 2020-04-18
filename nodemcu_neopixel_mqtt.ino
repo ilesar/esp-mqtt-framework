@@ -12,7 +12,7 @@
 
 #define DEVICE_ID "30ledstrip"
 #define LED_PIN 5
-#define LED_COUNT 30
+#define LED_COUNT 15
 #define WIFI_SSID "The Mainframe"
 #define WIFI_PASSWORD "probajpogoditkoja"
 #define FIRMWARE_PASSWORD "admin"
