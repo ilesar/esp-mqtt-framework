@@ -51,4 +51,5 @@ void MqttService::reconnect()
         }
     }
     Serial.println("Connected to MQTT");
+    _client.publish("configuration", _deviceId);
 }

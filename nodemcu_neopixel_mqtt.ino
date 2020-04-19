@@ -82,7 +82,7 @@ void setup()
   // Serial.begin(115200);
   // delay(1000);
 
-  led.applyPreset(Boot);
+  // led.applyPreset(Boot);
 
   delay(10);
 }
