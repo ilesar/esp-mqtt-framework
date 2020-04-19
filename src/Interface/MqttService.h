@@ -6,8 +6,6 @@
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
 
-#define MQTT_SERVICE_CALLBACK_SIGNATURE void (*callback)(String topic, JsonObject configuration)
-
 class MqttService
 {
 public:

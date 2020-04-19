@@ -11,7 +11,6 @@ MqttService::MqttService(char* host, int port, char* deviceId)
 void MqttService::setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length))
 {
     _client.setServer(_host, _port);
-    Serial.println("Setting callback");
     _client.setCallback(callback);
 }
 
