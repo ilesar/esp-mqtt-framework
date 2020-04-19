@@ -24,7 +24,7 @@ public:
     WirelessNetworkingService *_wifi;
     LedStripService *_led;
 
-    void setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length));
+    void setup(void (*callback)(String message, JsonObject configuration));
     void loop();
 
 private:

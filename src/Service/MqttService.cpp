@@ -1,6 +1,7 @@
 #include "../Interface/MqttService.h"
 
-MqttService::MqttService(char* host, int port, char* deviceId)
+
+MqttService::MqttService(char *host, int port, char *deviceId)
 {
     _host = host;
     _port = port;
@@ -8,10 +9,11 @@ MqttService::MqttService(char* host, int port, char* deviceId)
     _client = PubSubClient(_wifiClient);
 }
 
-void MqttService::setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length))
+void MqttService::setup(void (*callback)(String message, JsonObject configuration))
 {
+    _callback = callback;
     _client.setServer(_host, _port);
-    _client.setCallback(callback);
+    _client.setCallback([this](char *topic, byte *payload, unsigned int length) { this->onMqttMessage(topic, payload, length); });
 }
 
 void MqttService::loop()
@@ -56,4 +58,26 @@ void MqttService::reconnect()
     }
     Serial.println("Connected to MQTT");
     _client.publish("configuration", _deviceId);
+}
+
+void MqttService::onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
+{
+    String topic = (String)charTopic;
+
+    payload[length] = '\0';
+    char *message = (char *)payload;
+
+    Serial.println(message);
+    DynamicJsonDocument doc(4096);
+    auto error = deserializeJson(doc, message);
+
+    if (error)
+    {
+        Serial.print(F("deserializeJson() failed with code "));
+        Serial.println(error.c_str());
+    }
+
+    JsonObject configuration = doc.as<JsonObject>();
+
+    _callback(topic, configuration);
 }

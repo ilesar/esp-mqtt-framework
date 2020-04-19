@@ -13,7 +13,7 @@ Kernel::Kernel(char* deviceId)
     _wifi = new WirelessNetworkingService(WIFI_SSID, WIFI_PASSWORD);
 }
 
-void Kernel::setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length))
+void Kernel::setup(void (*callback)(String message, JsonObject configuration))
 {
     _led->connect();
     _led->applyPreset(Solid, true);

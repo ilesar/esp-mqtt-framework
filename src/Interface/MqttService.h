@@ -10,19 +10,22 @@ class MqttService
 {
 public:
     MqttService(char *host, int port, char *deviceId);
-    void setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length));
+    void setup(void (*callback)(String message, JsonObject configuration));
     void connect();
     void install();
     void loop();
 
 private:
     void reconnect();
+    void onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length);
+    
     WiFiClient _wifiClient;
     PubSubClient _client;
 
     char *_host;
     int _port;
     char *_deviceId;
+    void (*_callback)(String message, JsonObject configuration);
 };
 
 #endif
