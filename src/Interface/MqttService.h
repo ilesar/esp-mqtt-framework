@@ -14,6 +14,7 @@ public:
     MqttService(char *host, int port, char *deviceId);
     void setup(void (*callback)(char *charTopic, uint8_t *payload, unsigned int length));
     void connect();
+    void install();
     void loop();
 
 private:

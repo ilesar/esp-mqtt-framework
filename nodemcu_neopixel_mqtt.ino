@@ -61,6 +61,7 @@ void kernelSetup()
   wifi.connect();
   mqtt.setup(onMqttMessage);
   mqtt.connect();
+  mqtt.register();
   firmwareUpdate.setup();
 }
 
@@ -73,7 +74,7 @@ void kernelLoop()
 void setup()
 {
   Serial.begin(115200);
-  delay(1000);
+  delay(100);
 
   led.connect();
   led.applyPreset(Solid, true);
@@ -81,8 +82,6 @@ void setup()
 
   // Serial.begin(115200);
   // delay(1000);
-
-  // led.applyPreset(Boot);
 
   delay(10);
 }

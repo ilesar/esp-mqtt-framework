@@ -25,7 +25,7 @@ void WirelessNetworkingService::setAccessPoints()
 {
     Serial.println("Setting credentials...");
     WiFi.disconnect();
-    delay(3000);
+    delay(100);
     Serial.print("Connecting...");
 
     Serial.println(_ssid);
@@ -45,5 +45,5 @@ void WirelessNetworkingService::init()
     Serial.println("");
     Serial.println("WiFi connected");
     Serial.println(WiFi.localIP());
-    delay(1000);
+    delay(10);
 }
