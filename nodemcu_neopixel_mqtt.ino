@@ -10,7 +10,7 @@
 #include "./src/Enum/LightType.h"
 #define INT2POINTER(a) ((char *)(intptr_t)(a))
 
-#define DEVICE_ID "30ledstrip"
+#define DEVICE_ID "15ledstrip"
 #define LED_PIN 5
 #define LED_COUNT 15
 #define WIFI_SSID "The Mainframe"
@@ -73,9 +73,6 @@ void kernelLoop()
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("");
-  Serial.println("STARTED");
-  
   delay(1000);
 
   led.connect();
@@ -83,9 +80,6 @@ void setup()
   kernelSetup();
 
   // Serial.begin(115200);
-  // delay(1000);
-  // Serial.println("");
-  // Serial.println("STARTED");
   // delay(1000);
 
   led.applyPreset(Boot);
