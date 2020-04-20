@@ -9,10 +9,11 @@ Kernel::Kernel(char* deviceId)
     _wifi = new WirelessNetworkingService(WIFI_SSID, WIFI_PASSWORD);
 }
 
-void Kernel::setup(void (*callback)(String message, JsonObject configuration))
+void Kernel::setup(void (*messageCallback)(String message, JsonObject configuration))
 {
+    
     _wifi->connect();
-    _mqtt->setup(callback);
+    _mqtt->setup(messageCallback);
     _mqtt->connect();
     _mqtt->install();
     _firmware->setup();

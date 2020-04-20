@@ -19,7 +19,7 @@ public:
     FirmwareUpdateService *_firmware;
     WirelessNetworkingService *_wifi;
 
-    void setup(void (*callback)(String message, JsonObject configuration));
+    void setup(void (*messageCallback)(String message, JsonObject configuration));
     void loop();
 
 private:
