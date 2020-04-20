@@ -14,8 +14,10 @@ public:
     void connect();
     void applyPreset(LightType type, bool fadeOut = true);
     void applyPreset(LightType type, JsonObject &configuration);
+    JsonObject defaultConfiguration;
 
 private:
+    void setDefaultConfiguration();
     Adafruit_NeoPixel _pixels;
     int _pin;
     int _length;

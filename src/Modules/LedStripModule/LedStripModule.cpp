@@ -6,6 +6,8 @@ LedStripModule::LedStripModule(int digitalPin, int numberOfLights)
     _length = numberOfLights;
     _pixels = Adafruit_NeoPixel(_length, _pin, NEO_GRB + NEO_KHZ800);
     _lightFactory = new LightFactory();
+
+    setDefaultConfiguration();
 }
 
 void LedStripModule::connect()
@@ -38,4 +40,24 @@ void LedStripModule::applyPreset(LightType type, JsonObject &configuration)
     _light->setPixels(&_pixels);
 
     _light->start();
+}
+
+void LedStripModule::setDefaultConfiguration() {
+    DynamicJsonDocument doc(4096);
+    JsonObject root = doc.to<JsonObject>();
+
+    JsonArray configurationArray = root.createNestedArray("configs");
+
+    for (int i = 0; i < _length; i++)
+    {
+        JsonObject configurationObject = configurationArray.createNestedObject();
+        configurationObject["r"] = 255;
+        configurationObject["g"] = 255;
+        configurationObject["b"] = 255;
+    }
+
+    Serial.println("def");
+    serializeJson(root, Serial);
+
+    defaultConfiguration = root;
 }
