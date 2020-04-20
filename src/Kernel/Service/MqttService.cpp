@@ -1,6 +1,5 @@
 #include "../Interface/MqttService.h"
 
-
 MqttService::MqttService(char *host, int port, char *deviceId)
 {
     _host = host;
@@ -13,7 +12,9 @@ void MqttService::setup(void (*callback)(String message, JsonObject configuratio
 {
     _callback = callback;
     _client.setServer(_host, _port);
+    #ifndef __INTELLISENSE__
     _client.setCallback([this](char *topic, byte *payload, unsigned int length) { this->onMqttMessage(topic, payload, length); });
+    #endif
 }
 
 void MqttService::loop()
