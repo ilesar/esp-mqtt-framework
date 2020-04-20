@@ -1,4 +1,4 @@
-#include "../Interface/Kernel.h"
+#include "./Kernel.h"
 
 Kernel::Kernel(char* deviceId)
 {
@@ -7,7 +7,7 @@ Kernel::Kernel(char* deviceId)
 
     _deviceId = deviceId;
 
-    _led = new LedStripService(LED_PIN, LED_COUNT);
+    _led = new LedStripModule(LED_PIN, LED_COUNT);
     _mqtt = new MqttService(MQTT_HOST, MQTT_PORT, _deviceId);
     _firmware = new FirmwareUpdateService(FIRMWARE_PASSWORD);
     _wifi = new WirelessNetworkingService(WIFI_SSID, WIFI_PASSWORD);

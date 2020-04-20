@@ -1,6 +1,6 @@
-#include "../Interface/LedStripService.h"
+#include "./LedStripModule.h"
 
-LedStripService::LedStripService(int digitalPin, int numberOfLights)
+LedStripModule::LedStripModule(int digitalPin, int numberOfLights)
 {
     _pin = digitalPin;
     _length = numberOfLights;
@@ -8,12 +8,12 @@ LedStripService::LedStripService(int digitalPin, int numberOfLights)
     _lightFactory = new LightFactory();
 }
 
-void LedStripService::connect()
+void LedStripModule::connect()
 {
     _pixels.begin();
 }
 
-void LedStripService::applyPreset(LightType type, bool fadeOut)
+void LedStripModule::applyPreset(LightType type, bool fadeOut)
 {
     if (_light != NULL && fadeOut == true)
     {
@@ -27,7 +27,7 @@ void LedStripService::applyPreset(LightType type, bool fadeOut)
     _light->start();
 }
 
-void LedStripService::applyPreset(LightType type, JsonObject &configuration)
+void LedStripModule::applyPreset(LightType type, JsonObject &configuration)
 {
     if (_light != NULL) {
         _light->stop();

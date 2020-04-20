@@ -3,8 +3,6 @@
 #include "../Interface/ILightable.h"
 #include "../Interface/SolidLight.h"
 #include "../Interface/TransitionLight.h"
-#include "../Interface/WrapperLight.h"
-#include "../Interface/BootAnimationLight.h"
 
 class LightFactory
 {
@@ -22,24 +20,17 @@ public:
         if (type == Solid)
             return new SolidLight(255, 0, 0);
         if (type == Boot)
-            return new BootAnimationLight();
+            return new SolidLight(0, 255, 0);
         else
             return NULL;
     }
 
     ILightable *getLight(LightType type, JsonObject &configuration)
     {
-        // Serial.println("TEST");
-        // serializeJson(configuration, Serial);
-
         if (type == Solid)
             return new SolidLight(configuration);
         // if (type == Transition)
         //     return new TransitionLight(configuration);
-        // if (type == Wrapper)
-        //     return new WrapperLight(configuration);
-        // if (type == Gradient)
-        //     return new SolidLight(configuration);
         else
             return NULL;
     }

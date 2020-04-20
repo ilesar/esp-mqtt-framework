@@ -1,16 +1,16 @@
-#ifndef LED_STRIP_SERVICE
-#define LED_STRIP_SERVICE
+#ifndef LED_STRIP_MODULE
+#define LED_STRIP_MODULE
 
 #include <Adafruit_NeoPixel.h>
 #include <ArduinoJson.h>
-#include "./SolidLight.h"
-#include "./ILightable.h"
-#include "../Helper/LightFactory.cpp"
+#include "./Interface/SolidLight.h"
+#include "./Interface/ILightable.h"
+#include "./Helper/LightFactory.cpp"
 
-class LedStripService
+class LedStripModule
 {
 public:
-    LedStripService(int digitalPin, int numberOfLights);
+    LedStripModule(int digitalPin, int numberOfLights);
     void connect();
     void applyPreset(LightType type, bool fadeOut = true);
     void applyPreset(LightType type, JsonObject &configuration);

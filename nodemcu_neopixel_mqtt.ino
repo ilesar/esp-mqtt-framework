@@ -1,7 +1,7 @@
 
 #include <ArduinoJson.h>
-#include "./src/Interface/Kernel.h"
-#include "./src/Enum/LightType.h"
+#include "./src/Kernel/Kernel.h"
+#include "./src/Modules/LedStripModule/Enum/LightType.h"
 #include "./src/Config/DeviceConfiguration.h"
 
 Kernel *kernel;

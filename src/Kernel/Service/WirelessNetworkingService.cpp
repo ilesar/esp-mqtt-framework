@@ -1,5 +1,4 @@
 #include "../Interface/WirelessNetworkingService.h"
-#include <ArduinoJson.h>
 
 WirelessNetworkingService::WirelessNetworkingService(char *ssid, char *password)
 {

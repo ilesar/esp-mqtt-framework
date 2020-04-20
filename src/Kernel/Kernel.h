@@ -1,10 +1,10 @@
 #ifndef SMART_HOME_KERNEL
 #define SMART_HOME_KERNEL
 
-#include "./WirelessNetworkingService.h"
-#include "./LedStripService.h"
-#include "./FirmwareUpdateService.h"
-#include "./MqttService.h"
+#include "./Interface/WirelessNetworkingService.h"
+#include "../Modules/LedStripModule/LedStripModule.h"
+#include "./Interface/FirmwareUpdateService.h"
+#include "./Interface/MqttService.h"
 
 #define DEVICE_ID "15ledstrip"
 #define LED_PIN 5
@@ -22,7 +22,7 @@ public:
     MqttService *_mqtt;
     FirmwareUpdateService *_firmware;
     WirelessNetworkingService *_wifi;
-    LedStripService *_led;
+    LedStripModule *_led;
 
     void setup(void (*callback)(String message, JsonObject configuration));
     void loop();
