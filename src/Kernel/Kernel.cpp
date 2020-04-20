@@ -15,7 +15,6 @@ void Kernel::setup(void (*messageCallback)(String message, JsonObject configurat
     _wifi->connect();
     _mqtt->setup(messageCallback);
     _mqtt->connect();
-    _mqtt->install();
     _firmware->setup();
 }
 

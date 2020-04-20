@@ -31,7 +31,7 @@ void setup()
   Serial.begin(115200);
   delay(100);
   onInit();
-  
+
   kernel = new Kernel(DEVICE_ID);
   kernel->setup(onMessage);
 }

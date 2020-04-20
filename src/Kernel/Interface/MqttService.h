@@ -12,7 +12,6 @@ public:
     MqttService(char *host, int port, char *deviceId);
     void setup(void (*callback)(String message, JsonObject configuration));
     void connect();
-    void install();
     void loop();
 
 private:

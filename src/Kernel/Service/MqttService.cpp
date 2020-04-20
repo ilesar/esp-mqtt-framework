@@ -30,11 +30,6 @@ void MqttService::connect()
     }
 }
 
-void MqttService::install()
-{
-    // todo: register device to backend
-}
-
 void MqttService::reconnect()
 {
     Serial.println("Connecting to MQTT...");
