@@ -2,12 +2,8 @@
 
 Kernel::Kernel(char* deviceId)
 {
-    Serial.begin(115200);
-    delay(100);
-
     _deviceId = deviceId;
 
-    _led = new LedStripModule(LED_PIN, LED_COUNT);
     _mqtt = new MqttService(MQTT_HOST, MQTT_PORT, _deviceId);
     _firmware = new FirmwareUpdateService(FIRMWARE_PASSWORD);
     _wifi = new WirelessNetworkingService(WIFI_SSID, WIFI_PASSWORD);
@@ -15,8 +11,6 @@ Kernel::Kernel(char* deviceId)
 
 void Kernel::setup(void (*callback)(String message, JsonObject configuration))
 {
-    _led->connect();
-    _led->applyPreset(Solid, true);
     _wifi->connect();
     _mqtt->setup(callback);
     _mqtt->connect();

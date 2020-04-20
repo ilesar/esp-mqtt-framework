@@ -2,13 +2,9 @@
 #define SMART_HOME_KERNEL
 
 #include "./Interface/WirelessNetworkingService.h"
-#include "../Modules/LedStripModule/LedStripModule.h"
 #include "./Interface/FirmwareUpdateService.h"
 #include "./Interface/MqttService.h"
 
-#define DEVICE_ID "15ledstrip"
-#define LED_PIN 5
-#define LED_COUNT 15
 #define WIFI_SSID "The Mainframe"
 #define WIFI_PASSWORD "probajpogoditkoja"
 #define FIRMWARE_PASSWORD "admin"
@@ -22,7 +18,6 @@ public:
     MqttService *_mqtt;
     FirmwareUpdateService *_firmware;
     WirelessNetworkingService *_wifi;
-    LedStripModule *_led;
 
     void setup(void (*callback)(String message, JsonObject configuration));
     void loop();

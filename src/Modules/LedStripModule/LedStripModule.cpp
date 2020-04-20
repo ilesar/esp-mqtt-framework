@@ -34,10 +34,7 @@ void LedStripModule::applyPreset(LightType type, JsonObject &configuration)
     }
 
     _light = NULL;
-    Serial.println(configuration["configs"].size());
-    serializeJson(configuration, Serial);
     _light = _lightFactory->getLight(type, configuration);
-    // ILightable *light = _lightFactory->getLight(type, configuration);
     _light->setPixels(&_pixels);
 
     _light->start();
