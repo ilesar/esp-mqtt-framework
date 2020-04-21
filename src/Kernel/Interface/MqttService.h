@@ -5,16 +5,23 @@
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
+#include "../Interface/IKernelService.h"
 
-class MqttService
+#define CONFIGURATION_CALLBACK void (*configurationCallback)(JsonObject configuration)
+#define ACTION_CALLBACK void (*actionCallback)(JsonObject configuration)
+
+class MqttService : public IKernelService
 {
 public:
-    MqttService(char *host, int port, char *deviceId);
-    void setup(void (*callback)(String message, JsonObject configuration));
-    void connect();
+    MqttService(char *host, int port, char *deviceId);    
+    void setup(CONFIGURATION_CALLBACK, ACTION_CALLBACK);
     void loop();
 
+    char *configTopic();
+    char *actionTopic();
+
 private:
+    void connect();
     void reconnect();
     void onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length);
     
@@ -24,7 +31,10 @@ private:
     char *_host;
     int _port;
     char *_deviceId;
-    void (*_callback)(String message, JsonObject configuration);
+    char *_configTopic;
+    char *_actionTopic;
+    void (*_configurationCallback)(JsonObject configuration);
+    void (*_actionCallback)(JsonObject configuration);
 };
 
 #endif

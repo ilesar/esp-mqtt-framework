@@ -6,7 +6,7 @@ WirelessNetworkingService::WirelessNetworkingService(char *ssid, char *password)
     _password = password;
 }
 
-bool WirelessNetworkingService::connect()
+void WirelessNetworkingService::setup()
 {
     Serial.println("Enabling wifi...");
 

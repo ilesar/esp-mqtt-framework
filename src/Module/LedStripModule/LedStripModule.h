@@ -6,11 +6,12 @@
 #include "./Interface/SolidLight.h"
 #include "./Interface/ILightable.h"
 #include "./Helper/LightFactory.cpp"
+#include "../../Interface/IModule.h"
 
-class LedStripModule
+class LedStripModule : public IModule
 {
 public:
-    LedStripModule(int digitalPin, int numberOfLights);
+    LedStripModule(char *deviceId, int digitalPin, int numberOfLights);
     void connect();
     void applyPreset(LightType type, bool fadeOut = true);
     void applyPreset(LightType type, JsonObject &configuration);

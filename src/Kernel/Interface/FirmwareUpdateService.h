@@ -4,13 +4,14 @@
 #include <ESP8266WebServer.h>
 #include <ArduinoOTA.h>
 #include <Arduino.h>
+#include "../Interface/IKernelService.h"
 
-class FirmwareUpdateService
+class FirmwareUpdateService : public  IKernelService
 {
 public:
     FirmwareUpdateService(char *password);
-    void waitForUpdate();
     void setup();
+    void loop();
 
 private:
     char *_password;

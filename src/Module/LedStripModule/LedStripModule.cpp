@@ -1,6 +1,6 @@
 #include "./LedStripModule.h"
 
-LedStripModule::LedStripModule(int digitalPin, int numberOfLights)
+LedStripModule::LedStripModule(char *deviceId, int digitalPin, int numberOfLights) : IModule(deviceId)
 {
     _pin = digitalPin;
     _length = numberOfLights;
@@ -31,18 +31,24 @@ void LedStripModule::applyPreset(LightType type, bool fadeOut)
 
 void LedStripModule::applyPreset(LightType type, JsonObject &configuration)
 {
-    if (_light != NULL) {
+    Serial.println("APPLYing PRESET");
+    if (_light != NULL)
+    {
         _light->stop();
     }
 
     _light = NULL;
+    Serial.println("LITE");
     _light = _lightFactory->getLight(type, configuration);
     _light->setPixels(&_pixels);
 
+    Serial.println("STARTING");
     _light->start();
+    Serial.println("STARTED");
 }
 
-void LedStripModule::setDefaultConfiguration() {
+void LedStripModule::setDefaultConfiguration()
+{
     DynamicJsonDocument doc(4096);
     JsonObject root = doc.to<JsonObject>();
 

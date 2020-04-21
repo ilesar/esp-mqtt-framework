@@ -1,39 +1,40 @@
 
 #include <ArduinoJson.h>
 #include "./src/Kernel/Kernel.h"
-#include "./src/Modules/LedStripModule/LedStripModule.h"
-#include "./src/Modules/LedStripModule/Enum/LightType.h"
-#include "./src/Config/DeviceConfiguration.h"
+#include "./src/Interface/IModule.h"
+#include "./src/Module/LedStripModule/LedStripModule.h"
+#include "./src/Module/LedStripModule/Enum/LightType.h"
 
+#define DEVICE_ID "15ledstrip"
+#define LED_PIN 5
+#define LED_COUNT 15
 
 Kernel *kernel;
-LedStripModule led(LED_PIN, LED_COUNT);
+LedStripModule led(DEVICE_ID, LED_PIN, LED_COUNT);
 
+void onConfigurationRecieved(JsonObject configuration)
+{
+  Serial.println("CONFIG");
 
-void onInit() {
-  Serial.begin(115200);
-  delay(100);
-
-  led.connect();
-  led.applyPreset(Solid, true);
+  led.applyPreset(Solid, configuration);
 }
 
-void onMessage(String topic, JsonObject configuration)
+void onActionTriggered(JsonObject configuration)
 {
-  if (topic == DEVICE_ID)
-  {
-    led.applyPreset(Solid, configuration);
-  }
+  Serial.println("ACTION");
 }
 
 void setup()
 {
   Serial.begin(115200);
-  delay(100);
-  onInit();
+  delay(1000);
 
-  kernel = new Kernel(DEVICE_ID);
-  kernel->setup(onMessage);
+  led.connect();
+  led.applyPreset(Solid, true);
+  
+  
+
+  kernel = new Kernel(led, onConfigurationRecieved, onActionTriggered);
 }
 
 void loop()

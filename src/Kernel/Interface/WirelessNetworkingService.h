@@ -3,12 +3,13 @@
 
 #include <ESP8266WiFi.h>
 #include <Arduino.h>
+#include "../Interface/IKernelService.h"
 
-class WirelessNetworkingService
+class WirelessNetworkingService : public IKernelService
 {
 public:
     WirelessNetworkingService(char *ssid, char *password);
-    bool connect();
+    void setup();
 
 private:
     char *_ssid;

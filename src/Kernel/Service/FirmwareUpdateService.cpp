@@ -7,19 +7,18 @@ FirmwareUpdateService::FirmwareUpdateService(char *password)
 
 void FirmwareUpdateService::setup()
 {
-    Serial.println("Starting service");
-    FirmwareUpdateService::setAuthorization(_password);
-    FirmwareUpdateService::setExternalRoutes();
+    setAuthorization(_password);
+    setExternalRoutes();
 
-    FirmwareUpdateService::onStart();
-    FirmwareUpdateService::onEnd();
-    FirmwareUpdateService::onProgress();
-    FirmwareUpdateService::onError();
+    onStart();
+    onEnd();
+    onProgress();
+    onError();
 
     ArduinoOTA.begin();
 }
 
-void FirmwareUpdateService::waitForUpdate()
+void FirmwareUpdateService::loop()
 {
     if (_canUpdateFlag)
     {
@@ -46,8 +45,6 @@ void FirmwareUpdateService::setAuthorization(char *password)
 
 void FirmwareUpdateService::setExternalRoutes()
 {
-    Serial.println("Setting external routes");
-
     _server.on("/restart", [this]() {
         Serial.println("RESTART COMMAND");
         _server.send(200, "text/plain", "Restarting...");

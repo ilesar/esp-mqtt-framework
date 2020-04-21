@@ -1,5 +1,5 @@
-#ifndef PRESET_MODEL
-#define PRESET_MODEL
+#ifndef ILIGHTABLE_INTERFACE
+#define ILIGHTABLE_INTERFACE
 
 #include <Adafruit_NeoPixel.h>
 #include <Arduino.h>

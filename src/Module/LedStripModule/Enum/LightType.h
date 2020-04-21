@@ -5,9 +5,7 @@ enum LightType
 {
     Boot,
     Solid,
-    Transition,
-    Wrapper,
-    Gradient,
+    Transition
 };
 
 #endif

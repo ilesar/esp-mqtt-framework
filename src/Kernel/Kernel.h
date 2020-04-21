@@ -4,6 +4,7 @@
 #include "./Interface/WirelessNetworkingService.h"
 #include "./Interface/FirmwareUpdateService.h"
 #include "./Interface/MqttService.h"
+#include "../Interface/IModule.h"
 
 #define WIFI_SSID "The Mainframe"
 #define WIFI_PASSWORD "probajpogoditkoja"
@@ -11,19 +12,24 @@
 #define MQTT_HOST "192.168.31.125"
 #define MQTT_PORT 1883
 
+#define CONFIGURATION_CALLBACK void (*configurationCallback)(JsonObject configuration)
+#define ACTION_CALLBACK void (*actionCallback)(JsonObject configuration)
+
 class Kernel
 {
 public:
-    Kernel(char* deviceId);
+    Kernel(IModule device, CONFIGURATION_CALLBACK, ACTION_CALLBACK);
     MqttService *_mqtt;
     FirmwareUpdateService *_firmware;
     WirelessNetworkingService *_wifi;
-
-    void setup(void (*messageCallback)(String message, JsonObject configuration));
     void loop();
 
 private:
-    char* _deviceId;
+    void init();
+    void (*_configurationCallback)(JsonObject configuration);
+    void (*_actionCallback)(JsonObject configuration);
+
+    IModule _deviceModule;
 };
 
 #endif
