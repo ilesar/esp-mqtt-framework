@@ -8,11 +8,6 @@ LedStripModule::LedStripModule(char *deviceId, int digitalPin, int numberOfLight
     _lightFactory = new LightFactory();
 
     setDefaultConfiguration();
-    Serial.println("DONE");
-    serializeJson(_defaultConfiguration, Serial);
-    Serial.println("");
-    serializeJson(getDefaultConfiguration(), Serial);
-    Serial.println("");
 }
 
 void LedStripModule::connect()
@@ -66,14 +61,9 @@ void LedStripModule::setDefaultConfiguration()
         configurationObject["b"] = 255;
         configurationObject["type"] = "color";
     }
-
-    // Serial.println("DEFAULT");
-    // serializeJson(_defaultConfiguration, Serial);
-    // Serial.println("");
 }
 
 JsonObject LedStripModule::getDefaultConfiguration()
 {
-    Serial.println("GETTING CONFIGURATION");
     return _defaultConfiguration;
 }

@@ -66,11 +66,8 @@ void MqttService::reconnect()
 
     JsonObject defaultConfiguration = _deviceModule->getDefaultConfiguration();
     String serializedConfiguration;
-    serializeJson(_deviceModule->getDefaultConfiguration(), serializedConfiguration);
-    Serial.println("SENDING");
-    Serial.println(serializedConfiguration.c_str());
+  
     _client.publish("configuration", serializedConfiguration.c_str());
-    // _client.publish("configuration", _deviceModule.getDeviceId());
 }
 
 void MqttService::onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
@@ -94,24 +91,13 @@ void MqttService::onMqttMessage(char *charTopic, uint8_t *payload, unsigned int 
     sprintf(_configTopic, "%s/config", _deviceModule->getDeviceId());
     sprintf(_actionTopic, "%s/action", _deviceModule->getDeviceId());
 
-    
-    Serial.println("GOT TOPIC");
-    Serial.println(topic);
-    Serial.println(_actionTopic);
-    Serial.println(_configTopic);
-
-
     if (topic == _actionTopic)
     {
-        Serial.println(_actionTopic);
         _actionCallback(configuration);
-        Serial.println("END");
     }
     else if (topic == _configTopic)
     {
-        Serial.println(_configTopic);
         _configurationCallback(configuration);
-        Serial.println("END");
     }
 }
 
