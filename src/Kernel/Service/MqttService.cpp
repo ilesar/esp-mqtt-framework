@@ -1,6 +1,6 @@
 #include "../Interface/MqttService.h"
 
-MqttService::MqttService(char *host, int port, IModule* deviceModule)
+MqttService::MqttService(char *host, int port, IModule *deviceModule)
 {
     _host = host;
     _port = port;
@@ -66,7 +66,8 @@ void MqttService::reconnect()
 
     JsonObject defaultConfiguration = _deviceModule->getDefaultConfiguration();
     String serializedConfiguration;
-  
+    serializeJson(_deviceModule->getDefaultConfiguration(), serializedConfiguration);
+
     _client.publish("configuration", serializedConfiguration.c_str());
 }
 
