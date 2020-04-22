@@ -12,13 +12,16 @@ class LedStripModule : public IModule
 {
 public:
     LedStripModule(char *deviceId, int digitalPin, int numberOfLights);
+    LedStripModule(const LedStripModule &) = delete;
     void connect();
     void applyPreset(LightType type, bool fadeOut = true);
     void applyPreset(LightType type, JsonObject &configuration);
-    JsonObject defaultConfiguration;
+    JsonObject getDefaultConfiguration();
 
 private:
     void setDefaultConfiguration();
+    DynamicJsonDocument doc = DynamicJsonDocument(4096);
+    JsonObject _defaultConfiguration;
     Adafruit_NeoPixel _pixels;
     int _pin;
     int _length;

@@ -12,9 +12,10 @@ public:
     virtual void setConfiguration(JsonObject &configuration);
     virtual JsonObject getConfiguration();
     virtual char *getDeviceId();
+    virtual JsonObject getDefaultConfiguration();
 
 protected:
-    virtual void applyDefaultConfiguration();
+    virtual void setDefaultConfiguration();
     JsonObject _configuration;
     char *_deviceId;
 };

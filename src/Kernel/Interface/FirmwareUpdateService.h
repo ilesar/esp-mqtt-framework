@@ -10,6 +10,7 @@ class FirmwareUpdateService : public  IKernelService
 {
 public:
     FirmwareUpdateService(char *password);
+    FirmwareUpdateService(const FirmwareUpdateService &) = delete;
     void setup();
     void loop();
 

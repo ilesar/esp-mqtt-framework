@@ -1,12 +1,12 @@
 #include "./Kernel.h"
 
-Kernel::Kernel(IModule deviceModule, CONFIGURATION_CALLBACK, ACTION_CALLBACK)
+Kernel::Kernel(IModule* deviceModule, CONFIGURATION_CALLBACK, ACTION_CALLBACK)
 {
     _deviceModule = deviceModule;
     _configurationCallback = configurationCallback;
     _actionCallback = actionCallback;
 
-    _mqtt = new MqttService(MQTT_HOST, MQTT_PORT, _deviceModule.getDeviceId());
+    _mqtt = new MqttService(MQTT_HOST, MQTT_PORT, _deviceModule);
     _firmware = new FirmwareUpdateService(FIRMWARE_PASSWORD);
     _wifi = new WirelessNetworkingService(WIFI_SSID, WIFI_PASSWORD);
 

@@ -8,6 +8,11 @@ LedStripModule::LedStripModule(char *deviceId, int digitalPin, int numberOfLight
     _lightFactory = new LightFactory();
 
     setDefaultConfiguration();
+    Serial.println("DONE");
+    serializeJson(_defaultConfiguration, Serial);
+    Serial.println("");
+    serializeJson(getDefaultConfiguration(), Serial);
+    Serial.println("");
 }
 
 void LedStripModule::connect()
@@ -24,6 +29,7 @@ void LedStripModule::applyPreset(LightType type, bool fadeOut)
 
     _light = NULL;
     _light = _lightFactory->getLight(type);
+
     _light->setPixels(&_pixels);
 
     _light->start();
@@ -31,28 +37,26 @@ void LedStripModule::applyPreset(LightType type, bool fadeOut)
 
 void LedStripModule::applyPreset(LightType type, JsonObject &configuration)
 {
-    Serial.println("APPLYing PRESET");
     if (_light != NULL)
     {
         _light->stop();
     }
 
     _light = NULL;
-    Serial.println("LITE");
+
     _light = _lightFactory->getLight(type, configuration);
     _light->setPixels(&_pixels);
 
-    Serial.println("STARTING");
     _light->start();
-    Serial.println("STARTED");
 }
 
 void LedStripModule::setDefaultConfiguration()
 {
-    DynamicJsonDocument doc(4096);
-    JsonObject root = doc.to<JsonObject>();
+    _defaultConfiguration = doc.to<JsonObject>();
 
-    JsonArray configurationArray = root.createNestedArray("configs");
+    _defaultConfiguration["deviceId"] = _deviceId;
+
+    JsonArray configurationArray = _defaultConfiguration.createNestedArray("configs");
 
     for (int i = 0; i < _length; i++)
     {
@@ -62,8 +66,13 @@ void LedStripModule::setDefaultConfiguration()
         configurationObject["b"] = 255;
     }
 
-    Serial.println("def");
-    serializeJson(root, Serial);
+    // Serial.println("DEFAULT");
+    // serializeJson(_defaultConfiguration, Serial);
+    // Serial.println("");
+}
 
-    defaultConfiguration = root;
+JsonObject LedStripModule::getDefaultConfiguration()
+{
+    Serial.println("GETTING CONFIGURATION");
+    return _defaultConfiguration;
 }

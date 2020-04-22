@@ -9,6 +9,7 @@ class WirelessNetworkingService : public IKernelService
 {
 public:
     WirelessNetworkingService(char *ssid, char *password);
+    WirelessNetworkingService(const WirelessNetworkingService &) = delete;
     void setup();
 
 private:

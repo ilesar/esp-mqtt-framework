@@ -6,6 +6,7 @@
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
 #include "../Interface/IKernelService.h"
+#include "../../Interface/IModule.h"
 
 #define CONFIGURATION_CALLBACK void (*configurationCallback)(JsonObject configuration)
 #define ACTION_CALLBACK void (*actionCallback)(JsonObject configuration)
@@ -13,7 +14,8 @@
 class MqttService : public IKernelService
 {
 public:
-    MqttService(char *host, int port, char *deviceId);    
+    MqttService(char *host, int port, IModule* deviceModule);
+    MqttService(const MqttService &) = delete;
     void setup(CONFIGURATION_CALLBACK, ACTION_CALLBACK);
     void loop();
 
@@ -27,12 +29,13 @@ private:
     
     WiFiClient _wifiClient;
     PubSubClient _client;
+    IModule* _deviceModule;
 
     char *_host;
     int _port;
-    char *_deviceId;
     char *_configTopic;
     char *_actionTopic;
+
     void (*_configurationCallback)(JsonObject configuration);
     void (*_actionCallback)(JsonObject configuration);
 };

@@ -18,7 +18,7 @@
 class Kernel
 {
 public:
-    Kernel(IModule device, CONFIGURATION_CALLBACK, ACTION_CALLBACK);
+    Kernel(IModule* device, CONFIGURATION_CALLBACK, ACTION_CALLBACK);
     MqttService *_mqtt;
     FirmwareUpdateService *_firmware;
     WirelessNetworkingService *_wifi;
@@ -29,7 +29,7 @@ private:
     void (*_configurationCallback)(JsonObject configuration);
     void (*_actionCallback)(JsonObject configuration);
 
-    IModule _deviceModule;
+    IModule* _deviceModule;
 };
 
 #endif

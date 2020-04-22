@@ -1,27 +1,17 @@
 #include "../Interface/MqttService.h"
 
-MqttService::MqttService(char *host, int port, char *deviceId)
+MqttService::MqttService(char *host, int port, IModule* deviceModule)
 {
     _host = host;
     _port = port;
-    _deviceId = deviceId;
+    _deviceModule = deviceModule;
     _client = PubSubClient(_wifiClient);
 
-    Serial.println("");
-    Serial.println("tpc");
+    _configTopic = (char *)malloc(strlen(_deviceModule->getDeviceId()) + strlen("%s/config") + 1);
+    _actionTopic = (char *)malloc(strlen(_deviceModule->getDeviceId()) + strlen("%s/action") + 1);
 
-    _configTopic = (char *)malloc(strlen(_deviceId) + strlen("%s/config") + 1);
-    _actionTopic = (char *)malloc(strlen(_deviceId) + strlen("%s/action") + 1);
-    Serial.println(_configTopic);
-    Serial.println(_actionTopic);
-
-    sprintf(_configTopic, "%s/config", _deviceId);
-    Serial.println(_configTopic);
-    Serial.println(_actionTopic);
-    sprintf(_actionTopic, "%s/action", _deviceId);
-
-    Serial.println(_configTopic);
-    Serial.println(_actionTopic);
+    sprintf(_configTopic, "%s/config", _deviceModule->getDeviceId());
+    sprintf(_actionTopic, "%s/action", _deviceModule->getDeviceId());
 }
 
 void MqttService::setup(CONFIGURATION_CALLBACK, ACTION_CALLBACK)
@@ -73,8 +63,14 @@ void MqttService::reconnect()
             delay(5000);
         }
     }
-    Serial.println("Connected to MQTT");
-    _client.publish("configuration", _deviceId);
+
+    JsonObject defaultConfiguration = _deviceModule->getDefaultConfiguration();
+    String serializedConfiguration;
+    serializeJson(_deviceModule->getDefaultConfiguration(), serializedConfiguration);
+    Serial.println("SENDING");
+    Serial.println(serializedConfiguration.c_str());
+    _client.publish("configuration", serializedConfiguration.c_str());
+    // _client.publish("configuration", _deviceModule.getDeviceId());
 }
 
 void MqttService::onMqttMessage(char *charTopic, uint8_t *payload, unsigned int length)
@@ -84,8 +80,6 @@ void MqttService::onMqttMessage(char *charTopic, uint8_t *payload, unsigned int 
     payload[length] = '\0';
     char *message = (char *)payload;
 
-    Serial.println("GOT MESSAGE");
-    Serial.println(message);
     DynamicJsonDocument doc(4096);
     auto error = deserializeJson(doc, message);
 
@@ -96,6 +90,16 @@ void MqttService::onMqttMessage(char *charTopic, uint8_t *payload, unsigned int 
     }
 
     JsonObject configuration = doc.as<JsonObject>();
+
+    sprintf(_configTopic, "%s/config", _deviceModule->getDeviceId());
+    sprintf(_actionTopic, "%s/action", _deviceModule->getDeviceId());
+
+    
+    Serial.println("GOT TOPIC");
+    Serial.println(topic);
+    Serial.println(_actionTopic);
+    Serial.println(_configTopic);
+
 
     if (topic == _actionTopic)
     {

@@ -10,13 +10,13 @@
 #define LED_COUNT 15
 
 Kernel *kernel;
-LedStripModule led(DEVICE_ID, LED_PIN, LED_COUNT);
+LedStripModule *led;
 
 void onConfigurationRecieved(JsonObject configuration)
 {
   Serial.println("CONFIG");
 
-  led.applyPreset(Solid, configuration);
+  led->applyPreset(Solid, configuration);
 }
 
 void onActionTriggered(JsonObject configuration)
@@ -28,11 +28,14 @@ void setup()
 {
   Serial.begin(115200);
   delay(1000);
+  
+  led = new LedStripModule(DEVICE_ID, LED_PIN, LED_COUNT);
+  
+  led->connect();
+  // led->applyPreset(Solid, true);
 
-  led.connect();
-  led.applyPreset(Solid, true);
-  
-  
+  // Serial.begin(115200);
+  // delay(1000);
 
   kernel = new Kernel(led, onConfigurationRecieved, onActionTriggered);
 }
