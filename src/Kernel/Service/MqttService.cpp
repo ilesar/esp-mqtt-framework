@@ -64,7 +64,6 @@ void MqttService::reconnect()
         }
     }
 
-    JsonObject defaultConfiguration = _deviceModule->getDefaultConfiguration();
     String serializedConfiguration;
     serializeJson(_deviceModule->getDefaultConfiguration(), serializedConfiguration);
 

@@ -21,10 +21,11 @@ char *IModule::getDeviceId() {
     return _deviceId;
 }
 
-JsonObject IModule::getDefaultConfiguration() {
+void IModule::setDefaultConfiguration() {
 
 }
 
-void IModule::setDefaultConfiguration() {
-
+JsonObject IModule::getDefaultConfiguration()
+{
+    return _defaultConfiguration;
 }

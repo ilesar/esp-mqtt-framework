@@ -26,13 +26,14 @@ void onActionTriggered(JsonObject configuration)
 
 void setup()
 {
-  Serial.begin(115200);
-  delay(1000);
+  
   
   led = new LedStripModule(DEVICE_ID, LED_PIN, LED_COUNT);
-  
-  led->connect();
-  // led->applyPreset(Solid, true);
+
+  Serial.begin(115200);
+  delay(1000);
+
+  led->applyPreset(Solid, true);
 
   // Serial.begin(115200);
   // delay(1000);

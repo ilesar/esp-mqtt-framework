@@ -8,10 +8,7 @@ LedStripModule::LedStripModule(char *deviceId, int digitalPin, int numberOfLight
     _lightFactory = new LightFactory();
 
     setDefaultConfiguration();
-}
 
-void LedStripModule::connect()
-{
     _pixels.begin();
 }
 
@@ -19,15 +16,19 @@ void LedStripModule::applyPreset(LightType type, bool fadeOut)
 {
     if (_light != NULL && fadeOut == true)
     {
+        Serial.println("sTOPPING");
         _light->stop();
     }
 
     _light = NULL;
+    Serial.println("CRERATING LIGHT");
     _light = _lightFactory->getLight(type);
 
+    Serial.println("SETTING PIXELS");
     _light->setPixels(&_pixels);
-
+    Serial.println("starting");
     _light->start();
+    Serial.println("started");
 }
 
 void LedStripModule::applyPreset(LightType type, JsonObject &configuration)
@@ -61,9 +62,4 @@ void LedStripModule::setDefaultConfiguration()
         configurationObject["b"] = 255;
         configurationObject["type"] = "color";
     }
-}
-
-JsonObject LedStripModule::getDefaultConfiguration()
-{
-    return _defaultConfiguration;
 }

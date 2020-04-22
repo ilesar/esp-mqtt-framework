@@ -9,15 +9,18 @@ class IModule
 public:
     IModule();
     IModule(char *deviceId);
-    virtual void setConfiguration(JsonObject &configuration);
-    virtual JsonObject getConfiguration();
-    virtual char *getDeviceId();
-    virtual JsonObject getDefaultConfiguration();
+    void setConfiguration(JsonObject &configuration);
+    JsonObject getConfiguration();
+    char *getDeviceId();
+    JsonObject getDefaultConfiguration();
 
 protected:
     virtual void setDefaultConfiguration();
     JsonObject _configuration;
+    DynamicJsonDocument doc = DynamicJsonDocument(4096);
+    JsonObject _defaultConfiguration;
     char *_deviceId;
+    
 };
 
 #endif
