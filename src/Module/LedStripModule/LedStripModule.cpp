@@ -64,6 +64,7 @@ void LedStripModule::setDefaultConfiguration()
         configurationObject["r"] = 255;
         configurationObject["g"] = 255;
         configurationObject["b"] = 255;
+        configurationObject["type"] = "color";
     }
 
     // Serial.println("DEFAULT");
