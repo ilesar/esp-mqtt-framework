@@ -26,8 +26,9 @@ void onActionTriggered(JsonObject configuration)
 
 void setup()
 {
-  
-  
+  // char *deviceId = (char *)malloc(sizeof(char) * (strlen(DEVICE_ID) + 1));
+  // deviceId = (char *)DEVICE_ID;
+
   led = new LedStripModule(DEVICE_ID, LED_PIN, LED_COUNT);
 
   Serial.begin(115200);

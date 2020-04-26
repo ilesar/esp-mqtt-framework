@@ -9,7 +9,8 @@
 #define WIFI_SSID "The Mainframe"
 #define WIFI_PASSWORD "probajpogoditkoja"
 #define FIRMWARE_PASSWORD "admin"
-#define MQTT_HOST "192.168.31.125"
+#define MQTT_HOST "mqtt-broker.smarthome.lan"
+// #define MQTT_HOST "192.168.31.125"
 #define MQTT_PORT 1883
 
 #define CONFIGURATION_CALLBACK void (*configurationCallback)(JsonObject configuration)

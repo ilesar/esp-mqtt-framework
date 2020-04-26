@@ -3,11 +3,11 @@
         {
             "name": "Mac",
             "includePath": [
-                "/Users/ivan/Documents/Arduino/libraries/ArduinoJson/src",
-                "/Users/ivan/Documents/Arduino/libraries/Adafruit_NeoPixel",
-                "/Users/ivan/Documents/Arduino/libraries/pubsubclient/src",
-                "/Users/ivan/Library/Arduino15/packages/esp8266/tools/**",
-                "/Users/ivan/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/**"
+                "/Users/ivanlesar/Documents/Arduino/libraries/ArduinoJson/src",
+                "/Users/ivanlesar/Documents/Arduino/libraries/Adafruit_NeoPixel",
+                "/Users/ivanlesar/Documents/Arduino/libraries/pubsubclient/src",
+                "/Users/ivanlesar/Library/Arduino15/packages/esp8266/tools/**",
+                "/Users/ivanlesar/Library/Arduino15/packages/esp8266/hardware/esp8266/2.6.3/**"
             ],
             "forcedInclude": [],
             "macFrameworkPath": [
